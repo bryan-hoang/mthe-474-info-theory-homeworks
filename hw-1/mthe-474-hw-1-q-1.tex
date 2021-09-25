@@ -1,0 +1,151 @@
+% Provides macros manipulating strings of tokens.
+\RequirePackage{xstring}
+
+% Store the jobname as a string with category 11 characters.
+\edef\normaljobname{\expandafter\scantokens\expandafter{\jobname\noexpand}}
+\StrBetween{\normaljobname}{hw-}{-q}[\homeworknumber]
+\StrBehind{\normaljobname}{-q-}[\questionnumber]
+
+\documentclass[
+  coursecode={MTHE 474},
+  assignmentname={Homework \homeworknumber},
+  studentnumber=20053722,
+  name={Bryan Hoang}
+]{
+  ltxanswer%
+}
+
+\usepackage{bch-style}
+
+\begin{document}
+  \begin{questions}
+    \setcounter{question}{\questionnumber}
+    \addtocounter{question}{-1}
+    \question{}
+    \begin{solution}
+      \begin{table}
+        \caption{The joint distribution of \(X\) and \(Y\)}\label{tab:joint}
+        \begin{tblr}{
+            rows = {ht=32pt, rowsep = 2pt},
+            columns = {wd=32pt, colsep = 2pt},
+            cells = {m,c},
+            hlines,
+            vlines,
+          }
+          \diagbox[width=36pt,height=36pt]{\(X\)}{\(Y\)} & 0               & 1               & \(p_{X}(x)\)    \\
+          0                                              & \(\frac{1}{4}\) & 0               & \(\frac{1}{4}\) \\
+          1                                              & \(\frac{1}{2}\) & \(\frac{1}{4}\) & \(\frac{3}{4}\) \\
+          \(p_{Y}(y)\)                                   & \(\frac{3}{4}\) & \(\frac{1}{4}\) &                 \\
+        \end{tblr}
+      \end{table}
+      Based on Table~\ref{tab:joint}, the joint pmf of \(X\) and \(Y\) is given by
+      \begin{equation*}
+        p_{X,Y}(x,y) = \begin{cases}
+          \frac{1}{2} & \text{if } x = 0 \text{ and } y = 0, \\
+          \frac{1}{4} & \text{if } x = y,                    \\
+          0           & \text{if } x = 0 \text{ and } y = 1,
+        \end{cases}
+      \end{equation*}
+      and the marginal pmfs are given by
+      \begin{alignat*}{2}
+        p_{X}(x) = \begin{cases}
+                     \frac{1}{4} & \text{if } x = 0, \\
+                     \frac{3}{4} & \text{if } x = 1,
+                   \end{cases} &\qquad p_{Y}(y) = \begin{cases}
+                                                    \frac{3}{4} & \text{if } y = 0, \\
+                                                    \frac{1}{4} & \text{if } y = 1,
+                                                  \end{cases}
+      \end{alignat*}
+      Then the entropy of \(X\) is
+      \begin{align*}
+        H(X) &= -\sum_{x\in\statespace{X}} p_{X}(x) \log_{2} p_{X}(x)                         \\
+             &= -\big(p_{X}(0)\log_{2}p_{X}(0) + p_{X}(1)\log_{2}p_{X}(1)\big)                \\
+             &= -\left(\frac{1}{4}\log_{2}\frac{1}{4} + \frac{3}{4}\log_{2}\frac{3}{4}\right) \\
+             &\approx 0.811\ \text{bits}
+      \end{align*}
+      and the entropy of \(Y\) is
+      \begin{align*}
+        H(Y) &= -\sum_{b\in\statespace{Y}} p_{Y}(y) \log_{2} p_{Y}(y)                         \\
+             &= -\big(p_{Y}(0)\log_{2}p_{Y}(0) + p_{Y}(1)\log_{2}p_{Y}(1)\big)                \\
+             &= -\left(\frac{3}{4}\log_{2}\frac{3}{4} + \frac{1}{4}\log_{2}\frac{1}{4}\right) \\
+             &\approx 0.811\ \text{bits}
+      \end{align*}
+      which implies that the joint entropy of \(X\) and \(Y\) is
+      \begin{align*}
+        H(X,Y) &= -\sum_{x\in\statespace{X}}\sum_{y\in\statespace{Y}} p_{X,Y}(x,y) \log_{2}p_{X,Y}(x,y)               \\
+               &= -\left(\frac{1}{2}\log_{2}\frac{1}{2} + 0\log_{2}(0) + 2\cdot \frac{1}{4}\log_{2}\frac{1}{4}\right) \\
+               &\approx 1.5\ \text{bits}
+      \end{align*}
+      By the chain rule of conditional entropy, we then have
+      \begin{alignat*}{2}
+        H(X|Y) &= H(X,Y) - H(Y)      &\qquad H(Y|X) &= H(X,Y) - H(X)      \\
+               &= 1.5 - 0.811        &              &= 1.5 - 0.811        \\
+               &= 0.689\ \text{bits} &              &= 0.689\ \text{bits}
+      \end{alignat*}
+      The mutual information between \(X\) and \(Y\) is
+      \begin{align*}
+        I(X;Y) &= H(X) + H(Y) - H(X,Y) \\
+               &= 0.811 + 0.811 - 1.5  \\
+               &= 0.123\ \text{bits}
+      \end{align*}
+      Therefore, the Venn diagram for the computed properties can be seen in Figure~\ref{fig:venn}.
+      \begin{answerfigure}
+        \begin{tikzpicture}[node distance=0.25cm,]
+          \tikzset{
+            venn circle/.style={
+                draw,
+                circle,
+                minimum width=6cm,
+              }
+          }
+
+          % Mutual Information
+          \node[minimum width=3cm] (mutual information) {
+            \begin{alignedlabel}
+              &\phantomeq I(X;Y)    \\
+              &= 0.123\ \text{bits}
+            \end{alignedlabel}
+          };
+
+          % Entropy of X
+          \node[venn circle] (entropy X) [left=-3cm of mutual information] {};
+          \node [right=of entropy X.west] {
+            \begin{alignedlabel}
+              &\phantomeq H(X|Y)    \\
+              &= 0.689\ \text{bits}
+            \end{alignedlabel}
+          };
+          \node (entropy X label) [left=of entropy X.west] {
+            \begin{alignedlabel}
+              &\phantomeq H(X)      \\
+              &= 0.811\ \text{bits}
+            \end{alignedlabel}
+          };
+          \draw [->] (entropy X label.east) -- (entropy X.west);
+
+          % Entropy of Y
+          \node[venn circle] (entropy Y) [right=-3cm of mutual information] {};
+          \node [left=of entropy Y.east] {
+            \begin{alignedlabel}
+              &\phantomeq H(Y|X)    \\
+              &= 0.689\ \text{bits}
+            \end{alignedlabel}
+          };
+          \node (entropy Y label) [right=of entropy Y.east] {
+            \begin{alignedlabel}
+              &\phantomeq H(Y)      \\
+              &= 0.811\ \text{bits}
+            \end{alignedlabel}
+          };
+          \draw [->] (entropy Y label.west) -- (entropy Y.east);
+
+          % Mutual Entropy
+          \node (mutual entropy) [above=3cm of mutual information.north] {\(H(X,Y) = 1.5\) bits};
+          \draw [->] (mutual entropy.south) -- (entropy X.north);
+          \draw [->] (mutual entropy.south) -- (entropy Y.north);
+        \end{tikzpicture}
+        \caption{Venn diagram of entropy and mutual information for \(X\) and \(Y\)}\label{fig:venn}
+      \end{answerfigure}
+    \end{solution}
+  \end{questions}
+\end{document}

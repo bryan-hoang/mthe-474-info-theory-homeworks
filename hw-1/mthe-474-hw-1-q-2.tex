@@ -1,0 +1,80 @@
+% Provides macros manipulating strings of tokens.
+\RequirePackage{xstring}
+
+% Store the jobname as a string with category 11 characters.
+\edef\normaljobname{\expandafter\scantokens\expandafter{\jobname\noexpand}}
+\StrBetween{\normaljobname}{hw-}{-q}[\homeworknumber]
+\StrBehind{\normaljobname}{-q-}[\questionnumber]
+
+\documentclass[
+  coursecode={MTHE 474},
+  assignmentname={Homework \homeworknumber},
+  studentnumber=20053722,
+  name={Bryan Hoang}
+]{
+  ltxanswer%
+}
+
+\usepackage{bch-style}
+
+\begin{document}
+  \begin{questions}
+    \setcounter{question}{\questionnumber}
+    \addtocounter{question}{-1}
+    \question{}
+    \begin{solution}
+      To determine the joint entropy and mutual information of
+      \(X\) and \(Y\), we need to determine the joint and marginal pmfs.
+      \begin{table}
+        \caption{The joint distribution of \(X\) and \(Y\)}\label{tab:joint}
+        \begin{tblr}{
+            rows = {ht=32pt, rowsep = 2pt},
+            columns = {wd=32pt, colsep = 2pt},
+            cells = {m,c},
+            hlines,
+            vlines,
+          }
+          \diagbox[width=36pt,height=36pt]{\(Y\)}{\(X\)} & 1                & 2                & 3                & 4                & 5                & 6                & \(p_{Y}(y)\)     \\
+          0                                              & \(\frac{1}{12}\) & \(\frac{1}{12}\) & \(\frac{1}{12}\) & \(\frac{1}{12}\) & \(\frac{1}{24}\) & \(\frac{1}{24}\) & \(\frac{5}{12}\) \\
+          1                                              & \(\frac{1}{12}\) & \(\frac{1}{12}\) & \(\frac{1}{12}\) & \(\frac{1}{12}\) & \(\frac{1}{12}\) & \(\frac{1}{12}\) & \(\frac{6}{12}\) \\
+          2                                              & 0                & 0                & 0                & 0                & \(\frac{1}{24}\) & \(\frac{1}{24}\) & \(\frac{1}{12}\) \\
+          \(p_{X}(x)\)                                   & \(\frac{1}{6}\)  & \(\frac{1}{6}\)  & \(\frac{1}{6}\)  & \(\frac{1}{6}\)  & \(\frac{1}{6}\)  & \(\frac{1}{6}\)  &                  \\
+        \end{tblr}
+      \end{table}
+      From Table~\ref{tab:joint}, we can see that the joint distribution of \(X\) and \(Y\) is
+      \begin{equation*}
+        p_{X,Y}(x,y) = \begin{cases}
+          \frac{1}{12} & \text{if } y = 2 \text{ or } x \in \{1, \dotsc, 4\} \text{ and } y = 0, \\
+          \frac{1}{24} & \text{if } x \in \{5, 6\} \text{ and } y \in \{0, 2\},                  \\
+          0            & \text{otherwise},
+        \end{cases}
+      \end{equation*}
+      and that the marginal pmfs of \(X\) and \(Y\) are
+      \begin{alignat*}{2}
+        p_{X}(x) &= \frac{1}{6}\quad \forall x \in \{1, \dotsc, 6\} &\qquad p_{Y}(y) &= \begin{cases}
+                                                                                          \frac{1}{2}  & \text{if } y = 1, \\
+                                                                                          \frac{5}{12} & \text{if } y = 0, \\
+                                                                                          \frac{1}{12} & \text{if } y = 2, \\
+                                                                                        \end{cases}
+      \end{alignat*}
+      Then the joint entropy of \(X\) and \(Y\) is
+      \begin{align*}
+        H(X,Y)       &= -\sum_{x\in\statespace{X}}\sum_{y\in\statespace{Y}}{p_{X,Y}(x,y) \log_2 p_{X,Y}(x,y)}                                   \\
+                     &= -\left(10 \cdot \frac{1}{12}\log_{2}\frac{1}{12} + 4 \cdot \frac{1}{24}\log_{2}\frac{1}{24} + 4 \cdot 0\log_{2}0\right) \\
+        \alignedbox{ &\approx 3.752\ \text{bits}}                                                                                               \\
+      \end{align*}
+      To make the calculation of the mutual information between \(X\) and \(Y\) easier, let's first determine the marginal entropies.
+      \begin{alignat*}{2}
+        H(X) &= -\sum_{x\in\statespace{X}}{p_{X}(x) \log_2 p_{X}(x)} &\qquad H(Y) &= -\sum_{y\in\statespace{Y}}{p_{Y}(y) \log_2 p_{Y}(y)}                                                               \\
+             &= -\left(6 \cdot \frac{1}{6}\log_{2}\frac{1}{6}\right) &            &= -\left(\frac{5}{12}\log_{2}\frac{5}{12} + \frac{1}{2}\log_{2}\frac{1}{2} + \frac{1}{12}\log_{2}\frac{1}{12}\right) \\
+             &\approx 2.585\ \text{bits}                             &            &\approx 1.325\ \text{bits}
+      \end{alignat*}
+      Then the mutual information between \(X\) and \(Y\) is
+      \begin{align*}
+        I(X;Y)       &= H(X) + H(Y) - H(X,Y)  \\
+                     &= 2.585 + 1.325 - 3.752 \\
+        \alignedbox{ &= 0.158 \text{ bits}}   \\
+      \end{align*}
+    \end{solution}
+  \end{questions}
+\end{document}
