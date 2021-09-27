@@ -1,0 +1,69 @@
+% Provides macros manipulating strings of tokens.
+\RequirePackage{xstring}
+
+% Store the jobname as a string with category 11 characters.
+\edef\normaljobname{\expandafter\scantokens\expandafter{\jobname\noexpand}}
+\StrBetween{\normaljobname}{hw-}{-q}[\homeworknumber]
+\StrBehind{\normaljobname}{-q-}[\questionnumber]
+
+\documentclass[
+  coursecode={MTHE 474},
+  assignmentname={Homework \homeworknumber},
+  studentnumber=20053722,
+  name={Bryan Hoang}
+]{
+  ltxanswer%
+}
+
+\usepackage{bch-style}
+
+\renewcommand{\thepartno}{\roman{partno}}
+\renewcommand{\thesubpart}{(\alph{subpart})}
+
+\begin{document}
+  \begin{questions}
+    \setcounter{question}{\questionnumber}
+    \addtocounter{question}{-1}
+    \question{}
+    \begin{solution}
+      \begin{parts}
+        \part{}
+        \begin{subparts}
+          \subpart{}
+          \begin{proof}
+            Suppose \(X_{1},X_{2},\dotsc,X_{n}\) are independent. Then
+            \begin{align*}
+               &\phantomeq I(X_{1},X_{2},\dotsc,X_{n};Y_{1},Y_{2},\dotsc,Y_{n})                                                                              \\
+               &= H(X_{1},\dotsc,X_{n}) - H(X_{1},\dotsc,X_{n}|Y_{1},\dotsc,Y_{n})                                                                           \\
+               &= \sum_{i=1}^n H(X_{i}) - H(X_{1},\dotsc,X_{n}|Y_{1},\dotsc,Y_{n})                      & &\text{by the independence of the } X_{i}\text{'s} \\
+               &= \sum_{i=1}^n H(X_{i}) - \sum_{i=1}^n H(X_{i}|X_{1},\dotsc,X_{i-1},Y_{1},\dotsc,Y_{n}) & &\text{by the chain rule}                          \\
+               &\ge \sum_{i=1}^n H(X_{i}) - \sum_{i=1}^n H(X_{i}|Y_{i})                                 & &\because \text{conditioning reduces entropy}      \\
+               &= \sum_{i=1}^n H(X_{i}) - H(X_{i}|Y_{i})                                                                                                     \\
+               &= \sum_{i=1}^n I(X_{i};Y_{i})
+            \end{align*}
+          \end{proof}
+
+          \subpart{}
+          \begin{proof}
+            Suppose that for a given \(X_{i}\), the random variable \(Y_{i}\) is conditionally independent of the remaining random variables, for \(i \in \{1,\dotsc,n\}\). Then from the independence bound on entropy, we have
+            \begin{equation}\label{eq:independencebound}
+              H(Y^{n}) \le \sum_{i=1}^n H(Y_{i})
+            \end{equation}
+            By the conditional independence assumption, we have
+            \begin{align*}
+              H(Y^{n}|X^{n}) &= \expect{-\log_{2}P_{Y^{n}|X^{n}}(Y^{n}|X^{n})}                            \\
+                             &= \expect*{- \sum_{i=1}^{n} \log_{2}P_{Y_{i}\mid{}X_{i}}(Y_{i}\mid{}X_{i})} \\
+                             &= \sum_{i=1}^{n} H(Y_{i}|X_{i})
+            \end{align*}
+            Hence,
+            \begin{align*}
+              I(X^{n};Y^{n}) &= H(Y^{n}) - H(Y^{n}|X^{n})                               \\
+                             &\le \sum_{i=1}^n H(Y_{i}) - \sum_{i=1}^{n} H(Y_{i}|X_{i}) \\
+                             &= \sum_{i=1}^n I(X_{i};Y_{i})
+            \end{align*}
+          \end{proof}
+        \end{subparts}
+      \end{parts}
+    \end{solution}
+  \end{questions}
+\end{document}

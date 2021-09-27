@@ -1,0 +1,81 @@
+% Provides macros manipulating strings of tokens.
+\RequirePackage{xstring}
+
+% Store the jobname as a string with category 11 characters.
+\edef\normaljobname{\expandafter\scantokens\expandafter{\jobname\noexpand}}
+\StrBetween{\normaljobname}{hw-}{-q}[\homeworknumber]
+\StrBehind{\normaljobname}{-q-}[\questionnumber]
+
+\documentclass[
+  coursecode={MTHE 474},
+  assignmentname={Homework \homeworknumber},
+  studentnumber=20053722,
+  name={Bryan Hoang}
+]{
+  ltxanswer%
+}
+
+\usepackage{bch-style}
+
+\begin{document}
+  \begin{questions}
+    \setcounter{question}{\questionnumber}
+    \addtocounter{question}{-1}
+    \question{}
+    \begin{solution}
+      \begin{parts}
+        \part{}
+        \begin{proof}
+          Let \(X\) and \(Y\) by r.v.'s that take values in \(\statespace{X}\). The nonnegativity of \(H(\cdot)\) implies that the sum to two conditional entropies is also nonnegative. Thus, we have that \(\boxed{\Delta(X,Y) \ge 0}\), satisfying the nonnegativity of a metric.
+
+          By the commutative property of addition, we have
+          \begin{align*}
+            \Delta(X,Y) &= H(X|Y) + H(Y|X) \\
+                        &= H(Y|X) + H(X|Y) \\
+                        &= \Delta(Y,X)
+          \end{align*}
+          which implies that \(\boxed{\Delta(X,Y)=\Delta(Y,X)}\) satisfies the symmetric property of a metric.
+
+          \(\Delta(X,Y) = 0\) \textbf{if and only if} the value of \(X\) is completely determined by the value of \(Y\) and vice versa. i.e., \(\exists f\) invertible such that \(X=f(Y)\).
+
+          To prove that \(\Delta\) satisfies the triangle inequality by contradiction, suppose otherwise. Then
+          \begin{align*}
+            \Delta(X,Y) + \Delta(Y,Z)                                     &< \Delta(X,Z)                                      \\
+            H(X|Y) + H(Y|X) + H(Y|Z) + H(Z|Y)                             &< H(X|Z) + H(Z|X)                                  \\
+            \cancel{H(X|Y,Z)} + I(X;Z|Y) + H(Y|X,Z) + \cancel{I(Y;Z|X)}   &< \cancel{H(X|Y,Z)} + \cancel{I(X;Y|Z)}            \\
+            + H(Y|X,Z) + \cancel{I(X;Y|Z)} + \cancel{H(Z|X,Y)} + I(X;Z|Y) &\phantomeq + \cancel{H(Z|X,Y)} + \cancel{I(Y;Z|X)} \\
+            I(X;Z|Y) + H(Y|X,Z) + H(Y|X,Z) + I(X;Z|Y)                     &< 0
+          \end{align*}
+          which contradicts the nonnegativity of entropy and mutual information. Thus, the initial assumption was incorrect, and so \(\Delta\) \textbf{does} satisfy the triangle inequality for being a metric.
+        \end{proof}
+
+        \part{}
+        \begin{proof}
+          For the first inequality, suppose it is false. Then
+          \begin{align*}
+            H(X) - H(Y)          &> \Delta(X,Y)                                                    \\
+            H(X) - H(Y)          &> H(X|Y) + H(Y|X)                                                \\
+            H(X) - \cancel{H(Y)} &> H(X,Y) - H(X) + H(X,Y) - \cancel{H(Y)} & &\text{by chain rule} \\
+            H(X)                 &> H(X,Y)
+          \end{align*}
+          which contradicts the fact that joint entropies are always greater than the marginal entropies. Therefore, \(H(X) - H(Y) \le \Delta(X,Y)\). WLOG, a similar argument can be made for \(H(Y) - H(X) \le \Delta(X,Y)\)
+
+          For the second inequality, also suppose it is false. Then
+          \begin{align*}
+            H(X_{1}|X_{2}) - H(Y_{1}|Y_{2}) &> \Delta(X_{1},Y_{1}) + \Delta(X_{2},Y_{2})                                                                            \\
+            H(X_{1}|X_{2}) - H(Y_{1}|Y_{2}) &> H(X_{1}|Y_{1}) + H(Y_{1}|X_{1}) + H(X_{2}|Y_{2}) + H(Y_{2}|X_{2})                                                    \\
+            H(X_{1}|X_{2})                  &> \big(H(X_{1}|Y_{1}) + H(Y_{2}|X_{2}) + H(Y_{1}|Y_{2})\big) + H(Y_{1}|X_{1}) + H(X_{2}|Y_{2})\numberthis\label{eq:gt}
+          \end{align*}
+          But we also have that
+          \begin{align*}
+            H(X_{1}|Y_{1}) &\ge H(X_{1}|Y_{1},Y_{2})                                                                                   \\
+            H(Y_{2}|X_{2}) &\ge I(X_{1};Y_{1};Y_{2}|X_{2})                                                                             \\
+            H(Y_{1}|Y_{2}) &\ge I(X_{1};Y_{1}|X_{2},Y_{2})                                                                             \\
+            H(X_{1}|X_{2}) &\le H(X_{1}|Y_{1},Y_{2}) + I(X_{1};Y_{1};Y_{2}|X_{2}) + I(X_{1};Y_{1}|X_{2},Y_{2})\numberthis\label{eq:le}
+          \end{align*}
+          Then~\eqref{eq:gt} and~\eqref{eq:le} contradict each other. Thus, the initial assumption about the second inequality was incorrect, and so \(H(X_{1}|X_{2}) - H(Y_{1}|Y_{2}) \le \Delta(X_{1},Y_{1}) + \Delta(X_{2},Y_{2})\). WLOG, a similar argument can be made for \(H(Y_{1}|Y_{2}) - H(X_{1}|X_{2}) \le \Delta(X_{1},Y_{1}) + \Delta(X_{2},Y_{2})\).
+        \end{proof}
+      \end{parts}
+    \end{solution}
+  \end{questions}
+\end{document}

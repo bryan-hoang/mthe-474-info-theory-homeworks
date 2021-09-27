@@ -1,0 +1,59 @@
+% Provides macros manipulating strings of tokens.
+\RequirePackage{xstring}
+
+% Store the jobname as a string with category 11 characters.
+\edef\normaljobname{\expandafter\scantokens\expandafter{\jobname\noexpand}}
+\StrBetween{\normaljobname}{hw-}{-q}[\homeworknumber]
+\StrBehind{\normaljobname}{-q-}[\questionnumber]
+
+\documentclass[
+  coursecode={MTHE 474},
+  assignmentname={Homework \homeworknumber},
+  studentnumber=20053722,
+  name={Bryan Hoang}
+]{
+  ltxanswer%
+}
+
+\usepackage{bch-style}
+
+\begin{document}
+  \begin{questions}
+    \setcounter{question}{\questionnumber}
+    \addtocounter{question}{-1}
+    \question{}
+    \begin{solution}
+      \begin{parts}
+        \part{}
+        \begin{proof}
+          Let \(Y = p_{i}\). Then \(P(Y=p_{i}) = p_{i}\), which implies that
+          \begin{equation}\label{eq:jensen}
+            H_{f}(X) = E\left[f\left(\frac{1}{Y}\right)\right]
+          \end{equation}
+          Since \(f\) is concave, then by Jensen's inequality, we have
+          \begin{align}\label{eq:inequality}
+            H_{f}(X) &\le  f\left(E\left[\frac{1}{Y}\right]\right) & &\text{by~\eqref{eq:jensen}}
+          \end{align}
+          Computing \(E\left[\frac{1}{Y}\right]\) yields
+          \begin{align*}
+            E\left[\frac{1}{Y}\right] &= \sum_{i=1}^{N} p_{i} \cdot \frac{1}{p_{i}} \\
+                                      &= \sum_{i=1}^{N} 1                           \\
+                                      &= N\numberthis\label{eq:sum}
+          \end{align*}
+          Therefore, by~\eqref{eq:inequality} and~\eqref{eq:sum}, we have \(H_{f}(X) \le f(N)\).
+        \end{proof}
+        \part{}
+        \begin{proof}
+          By the definition of Divergence, we have
+          \begin{align*}
+            D(q_{1}||q_{2}) &= \sum_{b\in\statespace{Y}} q_{1}(b)\log_{2}\frac{q_{1}(b)}{q_{2}(b)}                                                                                                                                                            \\
+                            &= \sum_{b\in\statespace{Y}} \left[\left(\sum_{a\in\statespace{X}}p(b|a)p_{1}(a)\right)\log_{2}\frac{\sum_{a\in\statespace{X}}p(b|a)p_{1}(a)}{\sum_{a\in\statespace{X}}p(b|a)p_{2}(a)}\right]                                     \\
+                            &\le \sum_{b\in\statespace{Y}} \sum_{a\in\statespace{X}}p(b|a)p_{1}(a) \log_{2} \frac{\cancel{p(b|a)}p_{1}(a)}{\cancel{p(b|a)}p_{2}(a)}                                                       & &\text{by the Log-Sum Inequality} \\
+                            &= \sum_{a\in\statespace{X}} p_{1}(a) \log_{2} \left(\frac{p_{1}(a)}{p_{2}(a)}\right) \cancelto{1}{\sum_{b\in\statespace{Y}} p(b|a)}                                                                                              \\
+                            &= D(p_{1}||p_{2})
+          \end{align*}
+        \end{proof}
+      \end{parts}
+    \end{solution}
+  \end{questions}
+\end{document}

@@ -1,0 +1,74 @@
+% Provides macros manipulating strings of tokens.
+\RequirePackage{xstring}
+
+% Store the jobname as a string with category 11 characters.
+\edef\normaljobname{\expandafter\scantokens\expandafter{\jobname\noexpand}}
+\StrBetween{\normaljobname}{hw-}{-q}[\homeworknumber]
+\StrBehind{\normaljobname}{-q-}[\questionnumber]
+
+\documentclass[
+  coursecode={MTHE 474},
+  assignmentname={Homework \homeworknumber},
+  studentnumber=20053722,
+  name={Bryan Hoang}
+]{
+  ltxanswer%
+}
+
+\usepackage{bch-style}
+
+\begin{document}
+  \begin{questions}
+    \setcounter{question}{\questionnumber}
+    \addtocounter{question}{-1}
+    \question{}
+    \begin{parts}
+      \part{}
+      \begin{solution}
+        Since conditioning decreases entropy, we have that
+        \begin{align*}
+          H(X|Y)  &\ge H(X|Y,Z)                                  \\
+          -H(X|Z) &\le -H(X|Y,Z)\numberthis\label{eq:inequality}
+        \end{align*}
+        We also have the following identity for the conditional mutual information:
+        \begin{equation}\label{eq:identity}
+          I(X;Y|Z) = H(X|Z) - H(X|Y,Z)
+        \end{equation}
+        Thus,
+        \begin{align*}
+          H(X|Z) - H(X|Y)             &\le H(X|Z) - H(X|Y,Z) & &\text{by~\eqref{eq:inequality}} \\
+          \alignedbox{H(X|Z) - H(X|Y) &\le I(X;Y|Z)}         & &\text{by~\eqref{eq:identity}}
+        \end{align*}
+      \end{solution}
+
+      \part{}
+      \begin{solution}
+        If \(Z = g(Y)\), then \(X \rightarrow Y \rightarrow Z\). Thus,
+        \begin{align*}
+          I(X;Y)                 &\ge I(X;g(Y))                           \\
+          \Rightarrow -I(X;g(Y)) &\ge -I(X;Y)\numberthis\label{eq:mutual}
+        \end{align*}
+        By the properties of mutual information, we also have that
+        \begin{align*}
+          H(X|g(Y)) &= H(X) - I(X;g(Y)) &\text{and} & &H(X|Y) &= H(X) - I(X;Y)
+        \end{align*}
+        Then by~\eqref{eq:mutual}, it follows that
+        \begin{align*}
+          H(X) - I(X;g(Y))                  &\ge H(X) - I(X;Y) \\
+          \Rightarrow \alignedbox{H(X|g(Y)) &\ge H(X|Y)}
+        \end{align*}
+      \end{solution}
+
+      \part{}
+      \begin{solution}
+        \begin{align*}
+          \frac{1}{2}H(X_{1},X_{2}) &= \frac{1}{2}(H(X_{2}|X_{1}) + H(X_{1})) & &\text{by the chain rule}                                              \\
+                                    &= \frac{1}{2}(H(X_{2}|X_{1}) + H(X_{1})) & &\because X_{1} \text{ and } X_{2} \text{ are identically distributed} \\
+                                    &\ge \frac{1}{2}(2 \cdot H(X_{2}|X_{1}))  & &\because \text{conditioning reduces entropy}                          \\
+                                    &= H(X_{2}|X_{1})
+        \end{align*}
+        Therefore, we have \(\boxed{H(X_{2}|X_{1}) \le \frac{1}{2}H(X_{1},X_{2})}\).
+      \end{solution}
+    \end{parts}
+  \end{questions}
+\end{document}
