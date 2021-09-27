@@ -63,7 +63,7 @@
       \begin{solution}
         \begin{align*}
           \frac{1}{2}H(X_{1},X_{2}) &= \frac{1}{2}(H(X_{2}|X_{1}) + H(X_{1})) & &\text{by the chain rule}                                              \\
-                                    &= \frac{1}{2}(H(X_{2}|X_{1}) + H(X_{1})) & &\because X_{1} \text{ and } X_{2} \text{ are identically distributed} \\
+                                    &= \frac{1}{2}(H(X_{2}|X_{1}) + H(X_{2})) & &\because X_{1} \text{ and } X_{2} \text{ are identically distributed} \\
                                     &\ge \frac{1}{2}(2 \cdot H(X_{2}|X_{1}))  & &\because \text{conditioning reduces entropy}                          \\
                                     &= H(X_{2}|X_{1})
         \end{align*}
