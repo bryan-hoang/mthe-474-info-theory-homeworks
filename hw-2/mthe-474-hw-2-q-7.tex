@@ -18,13 +18,38 @@
 
 \usepackage{bch-style}
 
+\renewcommand{\thepartno}{\roman{partno}}
+\renewcommand{\thesubpart}{\alph{subpart}}
+\renewcommand{\subpartlabel}{(\thesubpart)}
+
 \begin{document}
   \begin{questions}
     \setcounter{question}{\questionnumber}
     \addtocounter{question}{-1}
-    \question{}
-    \begin{solution}
-      42.
-    \end{solution}
+    \question[20]\
+    \begin{parts}
+      \part\
+      \begin{subparts}
+        \subpart{}
+        \begin{solution}
+          42.
+        \end{solution}
+
+        \subpart{}
+        \begin{solution}
+          42.
+        \end{solution}
+
+        \subpart{}
+        \begin{solution}
+          42.
+        \end{solution}
+
+        \subpart{}
+        \begin{solution}
+          42.
+        \end{solution}
+      \end{subparts}
+    \end{parts}
   \end{questions}
 \end{document}
