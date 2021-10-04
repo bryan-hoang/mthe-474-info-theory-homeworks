@@ -26,15 +26,65 @@
       \part{}
       \begin{solution}
         \begin{claim}
-          42.
+          \(H_{\alpha}(p;q) > 0\)
         \end{claim}
+        \begin{proof}
+          For the case of \(\alpha \in (0, 1)\), we have that
+          \begin{equation}\label{eq:coefficient1}
+            \frac{1}{1-\alpha} > 0
+          \end{equation}
+          and
+          \begin{align*}
+            \alpha - 1                                                                                                                                                               &< 0                                                                                        \\
+            \Rightarrow q_{i}^{\alpha-1}                                                                                                                                             &> 1                          & &\because q_{i} \in (0,1),\, \forall i \in \{1, \dotsc, n\} \\
+            \Rightarrow                                                                                                                         \sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1} &> \sum_{i=1}^{n} p_{i} = 1                                                                 \\
+            \Rightarrow \log_{2}\left(\sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1}\right)                                                                                                    &> 0\numberthis\label{eq:log}
+          \end{align*}
+          Then by~\eqref{eq:coefficient1} and~\eqref{eq:log}, we have that \(H_{\alpha}(p;q) > 0\).
+
+          For the case of \(\alpha \in (1, \infty)\), we have that
+          \begin{equation}\label{eq:coefficient2}
+            \frac{1}{1-\alpha} < 0
+          \end{equation}
+          and
+          \begin{align*}
+            \alpha - 1                                                                                                                                                               &> 0                                                                                         \\
+            \Rightarrow q_{i}^{\alpha-1}                                                                                                                                             &< 1                           & &\because q_{i} \in (0,1),\, \forall i \in \{1, \dotsc, n\} \\
+            \Rightarrow                                                                                                                         \sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1} &< \sum_{i=1}^{n} p_{i} = 1                                                                  \\
+            \Rightarrow \log_{2}\left(\sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1}\right)                                                                                                    &< 0\numberthis\label{eq:log2}
+          \end{align*}
+          Then by~\eqref{eq:coefficient2} and~\eqref{eq:log2}, we have that \(H_{\alpha}(p;q) > 0\).
+
+          Therefore, \(\forall \alpha \in (0,1) \cup (1,\infty)\), \(H_{\alpha}(p;q) > 0\).
+        \end{proof}
       \end{solution}
 
       \part{}
       \begin{solution}
         \begin{claim}
-          42.
+          \(H_{\alpha}(p;q)\) is non-increasing in \(\alpha\).
         \end{claim}
+        \begin{proof}
+          Let \(p^{\prime} = (p_{1}^{\prime},\dotsc,p_{n}^{\prime})\) be a probability distribution with \(p_i^{\prime} = \frac{p_{i}q_{i}^{\alpha-1}}{\sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1}}\), \(\forall i \in \{1, \dotsc, n\}\). It can be seen that \(p_{i}^{\prime} \in (0,1)\ \forall i \in \{1, \dotsc, n\}\) and that \(\sum_{i=1}^{n} p_{i}^{\prime} = 1\). Then
+          \begin{align*}
+             &\phantomeq D(p^{\prime}||p)                                                                                                                                                                                                                                                                                                                                          \\
+             &= \sum_{i=1}^{n} p_{i}^{\prime} \log_{2} \frac{p_{i}^{\prime}}{p_{i}}                                                                                                                                                                                                                                                                                                \\
+             &= \sum_{i=1}^{n} \frac{p_{i}q_{i}^{\alpha-1}}{\sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1}} \log_{2}\frac{\frac{\cancel{p_{i}}q_{i}^{\alpha-1}}{\sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1}} }{\cancel{p_{i}}}                                                                                                                                                                      \\
+             &= \sum_{i=1}^{n} \frac{p_{i}q_{i}^{\alpha-1}}{\sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1}} \log_{2} \frac{1}{\sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1}} + \sum_{i=1}^{n} \frac{p_{i}q_{i}^{\alpha-1}}{\sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1}} \log_{2} q_{i}^{\alpha} + \sum_{i=1}^{n} \frac{p_{i}q_{i}^{\alpha-1}}{\sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1}} \log_{2} \frac{1}{q_{i}} \\
+             &= \log_{2} \frac{1}{\sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1}} + \frac{\alpha}{\sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1}} \sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1} \log_{2} q_{i} - \frac{1}{\sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1}} \sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1} \log_{2} q_{i}                                                                                             \\
+             &= -\log_{2} \sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1} + \frac{\alpha-1}{\sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1}} \sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1} \log_{2} q_{i}\numberthis\label{eq:divergence}
+          \end{align*}
+          Taking the derivative of \(H_{\alpha}(p;q)\) with respect to \(\alpha\) gives
+          \begin{align*}
+             &\phantomeq \dv{\alpha} H_{\alpha}(p;q)                                                                                                                                                                                                           \\
+             &= \frac{1}{(1-\alpha)^2} \log_{2} \sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1} + \frac{1}{1-\alpha} \cdot \frac{1}{\ln 2 \sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1}} \cdot \sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1}\ln q_{i}                                       \\
+             &= \frac{1}{(1-\alpha)^2} \left(\log_{2} \sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1} + \frac{1-\alpha}{\sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1}} \cdot \sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1}\frac{\ln q_{i}}{\ln 2}\right)                                    \\
+             &= \frac{1}{(1-\alpha)^2} \left(\log_{2} \sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1} - \frac{\alpha-1}{\sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1}} \cdot \sum_{i=1}^{n} p_{i}q_{i}^{\alpha-1}\log_{2} q_{i}\right)                                             \\
+             &= \frac{1}{(1-\alpha)^2} \left(-D(p^{\prime}||p)\right)                                                                                                                                                       & &\text{by~\eqref{eq:divergence}} \\
+             &\le 0
+          \end{align*}
+          since \(\frac{1}{(1-\alpha)^2} > 0\) and by the nonnegativity of divergence. Thus, we have shown that \(H_{\alpha}(p;q)\) is non-increasing in \(\alpha\).
+        \end{proof}
       \end{solution}
     \end{parts}
   \end{questions}
