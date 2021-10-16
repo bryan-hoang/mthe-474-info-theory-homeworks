@@ -11,7 +11,7 @@
   assignmentname={Homework \homeworknumber},
   studentnumber=20053722,
   name={Bryan Hoang},
-  draft,
+  % final,
 ]{
   ltxanswer%
 }
@@ -27,14 +27,61 @@
       \part{}
       \begin{solution}
         \begin{example}
-          42.
+          Let the sample space be \(\mathcal{X}=\{0,1\}\) and consider the following three probability distributions
+          \begin{align*}
+            p(x) &= \begin{cases}
+                      \frac{1}{2} &\text{if } x=0, \\
+                      \frac{1}{2} &\text{if } x=1,
+                    \end{cases} \\
+            r(x) &= \begin{cases}
+                      \frac{1}{4} &\text{if } x=0, \\
+                      \frac{3}{4} &\text{if } x=1,
+                    \end{cases} \\
+            q(x) &= \begin{cases}
+                      \frac{1}{8} &\text{if } x=0, \\
+                      \frac{7}{8} &\text{if } x=1,
+                    \end{cases}
+          \end{align*}
+          Then the triangle inequality for divergence implies that
+          \begin{align*}
+            D(p||q)                                                                                           &\le D(p||r) + D(r||q)                                                                                                                                                                                     \\
+            \sum_{x\in\{0,1\}} p(x)\log\frac{p(x)}{q(x)}                                                      &\le \sum_{x\in\{0,1\}} p(x)\log\frac{p(x)}{r(x)} + \sum_{x\in\{0,1\}} r(x)\log\frac{r(x)}{q(x)}                                                                                                           \\
+            \frac{1}{2} \log\frac{\frac{1}{2}}{\frac{1}{8}} + \frac{1}{2} \log\frac{\frac{1}{2}}{\frac{7}{8}} &\le \frac{1}{2} \log\frac{\frac{1}{2}}{\frac{1}{4}} + \frac{1}{2} \log\frac{\frac{1}{2}}{\frac{3}{4}} + \frac{1}{4} \log\frac{\frac{1}{4}}{\frac{1}{8}} + \frac{3}{4} \log\frac{\frac{3}{4}}{\frac{7}{8}} \\
+            0.41                                                                                              &\le 0.20
+          \end{align*}
+          which is false, thus making Divergence violate the triangle inequality.
         \end{example}
       \end{solution}
 
       \part{}
       \begin{solution}
         \begin{proof}
-          42.
+          Let \(p\) and \(q\) be two PMFs on the same alphabet \(\mathcal{X}\).
+
+          To apply Jensen's Inequality, let
+          \begin{equation*}
+            f(x)=-\log x
+          \end{equation*}
+          be a convex function and define the random variable \(Y\) to have the alphabet
+          \begin{equation*}
+            \mathcal{Y}=\left\{\frac{q(x)}{p(x)} : x \in \mathcal{X}\right\}
+          \end{equation*}
+          with the PMF
+          \begin{equation*}
+            P\left(Y=\frac{q(x)}{p(x)}\right)=p(x),\ \forall x \in \mathcal{X}
+          \end{equation*}
+          Then
+          \begin{align*}
+            D(p||q) &= \E_{p}\left[\log\frac{p(X)}{q(X)}\right]                                                                   \\
+                    &= \E_{p}\left[-\log\frac{q(X)}{p(X)}\right]                                                                  \\
+                    &= \E_{p}\left[-\log\frac{q(X)}{p(X)}\right]                                                                  \\
+                    &= \E_{p}[f(Y)]                                                                                               \\
+                    &\ge f(\E[Y])                                                                & &\text{by Jensen's Inequality} \\
+                    &= \log\sum_{x\in\mathcal{X}} \frac{q(x)}{\cancel{p(x)}} \cdot \cancel{p(x)}                                  \\
+                    &= \log 1                                                                                                     \\
+                    &= 0
+          \end{align*}
+          Therefore, divergence is non-negative.
         \end{proof}
       \end{solution}
     \end{parts}
