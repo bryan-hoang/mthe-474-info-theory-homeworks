@@ -11,7 +11,8 @@
   assignmentname={Homework \homeworknumber},
   studentnumber=20053722,
   name={Bryan Hoang},
-  draft,
+  11pt,
+  % final,
 ]{
   ltxanswer%
 }
@@ -25,7 +26,18 @@
     \question[10]{}
     \begin{solution}
       \begin{proof}
-        42.
+        Let \(P\), \(Q\), and \(R\) be three distributions defined on a common finite alphabet \(\mathcal{X}\). Then starting from the RHS of the equation and applying logarithm identities yields
+        \begin{align*}
+           &\phantomeq \kldiv*{P}{\frac{P+Q}{2}} + \kldiv*{Q}{\frac{P+Q}{2}} + 2\kldiv*{\frac{P+Q}{2}}{R}                                                                                                                                                                                  \\
+           &= \sum_{x\in\mathcal{X}} P(x)\log\frac{P(x)}{\left(\frac{P(x)+Q(x)}{2}\right)} + \sum_{x\in\mathcal{X}} Q(x)\log\frac{P(x)}{\left(\frac{P(x)+Q(x)}{2}\right)} + \cancel{2}\sum_{x\in\mathcal{X}} \frac{P(x)+Q(x)}{\cancel{2}}\log\frac{\left(\frac{P(x)+Q(x)}{2}\right)}{R(x)} \\
+           &= \cancel{\sum_{x\in\mathcal{X}} P(x) \log 2} + \cancel{\sum_{x\in\mathcal{X}} P(x) \log P(x)} - \cancel{\sum_{x\in\mathcal{X}} P(x) \log P(x)} - \cancel{\sum_{x\in\mathcal{X}} P(x) \log Q(x)}                                                                               \\
+           &\phantomeq + \cancel{\sum_{x\in\mathcal{X}} Q(x) \log 2} + \cancel{\sum_{x\in\mathcal{X}} Q(x) \log Q(x)} - \cancel{\sum_{x\in\mathcal{X}} Q(x) \log P(x)} - \cancel{\sum_{x\in\mathcal{X}} Q(x) \log Q(x)}                                                                    \\
+           &\phantomeq + \sum_{x\in\mathcal{X}} P(x) \log P(x) + \cancel{\sum_{x\in\mathcal{X}} P(x) \log Q(x)} - \cancel{\sum_{x\in\mathcal{X}} P(x) \log 2} - \sum_{x\in\mathcal{X}} P(x) \log R(x)                                                                                      \\
+           &\phantomeq + \cancel{\sum_{x\in\mathcal{X}} Q(x) \log P(x)} + \sum_{x\in\mathcal{X}} Q(x) \log Q(x) - \cancel{\sum_{x\in\mathcal{X}} Q(x) \log 2} - \sum_{x\in\mathcal{X}} Q(x) \log R(x)                                                                                      \\
+           &= \sum_{x\in\mathcal{X}} P(x) \log P(x) - \sum_{x\in\mathcal{X}} P(x) \log R(x) + \sum_{x\in\mathcal{X}} Q(x) \log Q(x) - \sum_{x\in\mathcal{X}} Q(x) \log R(x)                                                                                                                \\
+           &= \sum_{x\in\mathcal{X}} P(x) \log \frac{P(x)}{R(x)} + \sum_{x\in\mathcal{X}} Q(x) \log \frac{Q(x)}{R(x)}                                                                                                                                                                      \\
+           &= \kldiv{P}{R} + \kldiv{Q}{R}
+        \end{align*}
       \end{proof}
     \end{solution}
   \end{questions}
