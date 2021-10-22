@@ -10,12 +10,18 @@
   coursecode={MTHE 474},
   assignmentname={Homework \homeworknumber},
   studentnumber=20053722,
-  name={Bryan Hoang}
+  name={Bryan Hoang},
+  draft,
+  % final,
 ]{
   ltxanswer%
 }
 
 \usepackage{bch-style}
+
+\usetikzlibrary{
+  positioning,
+}
 
 \begin{document}
   \begin{questions}
@@ -41,19 +47,19 @@
       Based on Table~\ref{tab:joint}, the joint pmf of \(X\) and \(Y\) is given by
       \begin{equation*}
         p_{X,Y}(x,y) = \begin{cases}
-          \frac{1}{2} & \text{if } x = 0 \text{ and } y = 0, \\
-          \frac{1}{4} & \text{if } x = y,                    \\
-          0           & \text{if } x = 0 \text{ and } y = 1,
+          \frac{1}{2} &\text{if } x = 1 \text{ and } y = 0, \\
+          \frac{1}{4} &\text{if } x = y,                    \\
+          0           &\text{if } x = 0 \text{ and } y = 1,
         \end{cases}
       \end{equation*}
       and the marginal pmfs are given by
       \begin{alignat*}{2}
         p_{X}(x) = \begin{cases}
-                     \frac{1}{4} & \text{if } x = 0, \\
-                     \frac{3}{4} & \text{if } x = 1,
+                     \frac{1}{4} &\text{if } x = 0, \\
+                     \frac{3}{4} &\text{if } x = 1,
                    \end{cases} &\qquad p_{Y}(y) = \begin{cases}
-                                                    \frac{3}{4} & \text{if } y = 0, \\
-                                                    \frac{1}{4} & \text{if } y = 1,
+                                                    \frac{3}{4} &\text{if } y = 0, \\
+                                                    \frac{1}{4} &\text{if } y = 1,
                                                   \end{cases}
       \end{alignat*}
       Then the entropy of \(X\) is
