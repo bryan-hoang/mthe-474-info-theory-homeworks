@@ -12,6 +12,7 @@
   studentnumber=20053722,
   name={Bryan Hoang},
   draft,
+  % final,
 ]{
   ltxanswer%
 }
@@ -26,12 +27,49 @@
     \begin{parts}
       \part{}
       \begin{solution}
-        42.
+        Let \(P_{X}\) and \(P_{Y}\) be the common marginal PMFs of \(X\) and \(Y\) respectively. Then we have
+        \begin{align*}
+                       &\phantomeq \lim_{n\to\infty} \frac{1}{n} \log_{2} \frac{[P_{X^{n},Y^{n}}(X^{n},Y^{n})]^{1-\alpha}}{[P_{X^{n}}(X^{n})]^{1-\alpha}[P_{Y^{n}}(Y^{n})]^{\alpha}}                                                                                            \\
+                       &= \lim_{n\to\infty} \frac{1}{n} \Biggl(\log_{2} \biggl[\frac{P_{X^{n},Y^{n}}(X^{n},Y^{n})}{P_{X^{n}}(X^{n})}\biggr]^{1-\alpha} - \log_{2} [P_{Y^{n}}(Y^{n})]^{\alpha}\Biggr)                                                                            \\
+                       &= \lim_{n\to\infty} \frac{1}{n} \Biggl((1-\alpha) \log_{2} \frac{P_{X^{n},Y^{n}}(X^{n},Y^{n})}{P_{X^{n}}(X^{n})} - \alpha \log_{2} P_{Y^{n}}(Y^{n})\Biggr)                                                                                              \\
+                       &= \lim_{n\to\infty} \frac{1}{n} \Biggl((1-\alpha) \log_{2} \frac{\prod_{i=1}^{n} P_{X,Y}(X_{i},Y_{i})}{\prod_{i=1}^{n} P_{X}(X_{i})} - \alpha \log_{2} \prod_{i=1}^{n} P_{Y}(Y_{i})\Biggr)                           & &\because \text{the RVs are iid} \\
+                       &= \lim_{n\to\infty} \frac{1}{n} \Biggl((1-\alpha) \sum_{i=1}^{n} \log_{2} \frac{P_{X,Y}(X_{i},Y_{i})}{P_{X}(X_{i})} - \alpha \sum_{i=1}^{n} \log_{2} P_{Y}(Y_{i})\Biggr)                                                                                \\
+                       &= (1-\alpha) \lim_{n\to\infty} \Biggl(\frac{1}{n} \sum_{i=1}^{n} \log_{2} \frac{P_{X,Y}(X_{i},Y_{i})}{P_{X}(X_{i})}\Biggr) - \alpha \lim_{n\to\infty} \Biggl(\frac{1}{n} \sum_{i=1}^{n} \log_{2} P_{Y}(Y_{i})\Biggr)                                    \\
+                       &= (1-\alpha) \expect*{\log_{2} \frac{P_{X,Y}(X,Y)}{P_{X}(X)}} + \alpha \expect*{-\log_{2} P_{Y}(Y)}                                                                                                                  & &\text{by the WLLN}              \\
+                       &= (-1)(-1) (1-\alpha) \expect*{\log_{2} P_{Y|X}(Y|X)} + \alpha H(Y)                                                                                                                                                                                     \\
+          \alignedbox{ &= -(1-\alpha) H(Y|X) + \alpha H(Y)}\numberthis\label{eq:limit}                                                                                                                                                                                          \\
+        \end{align*}
       \end{solution}
 
       \part{}
       \begin{solution}
-        42.
+
+        \begin{table}
+          \caption{The joint distribution defined by \(P_{X,Y}\)}\label{tab:joint}
+          \begin{tblr}{
+              rows = {ht=32pt, rowsep = 2pt},
+              columns = {wd=32pt, colsep = 2pt},
+              cells = {m,c},
+              hlines,
+              vlines,
+            }
+            \diagbox[width=36pt,height=36pt]{\(X\)}{\(Y\)} & 0                        & 1                        & 2                      & \(P_{X}(x)\)    \\
+            0                                              & \(\frac{1-\epsilon}{2}\) & 0                        & \(\frac{\epsilon}{2}\) & \(\frac{1}{2}\) \\
+            1                                              & 0                        & \(\frac{1-\epsilon}{2}\) & \(\frac{\epsilon}{2}\) & \(\frac{1}{2}\) \\
+            \(P_{Y}(y)\)                                   & \(\frac{1-\epsilon}{2}\) & \(\frac{1-\epsilon}{2}\) & \(\epsilon\)           &                 \\
+          \end{tblr}
+        \end{table}
+        Based on Table~\ref{tab:joint}, the necessary conditional PMF to calculate \(H(Y|X)\) can be computed using
+        \begin{equation*}
+          P_{Y|X} = \frac{P_{X,Y}}{P_{X}}
+        \end{equation*}
+        Then evaluating~\eqref{eq:limit} from part~(\ref{part@5@1}) gives
+        \begin{align*}
+                       &\phantomeq -(1-\alpha) H(Y|X) + \alpha H(Y)                                                                                                                                                                                                                                                                                                                                                                  \\
+                       &= \frac{1}{2} \biggl[\cancel{2}\Bigl(\frac{1-\epsilon}{\cancel{2}}\Bigr)\log_{2}\frac{\frac{1-\epsilon}{\cancel{2}}}{\frac{1}{\cancel{2}}} + \cancel{2}\Bigl(\frac{\epsilon}{\cancel{2}}\Bigr)\log_{2}\frac{\frac{\epsilon}{\cancel{2}}}{\frac{1}{\cancel{2}}}\biggr] - \frac{1}{2} \biggl[\cancel{2}\Bigl(\frac{1-\epsilon}{\cancel{2}}\Bigr)\log_{2}\frac{1-\epsilon}{2} + \epsilon\log_{2}\epsilon\biggr] \\
+                       &= \frac{1}{2} \biggl[(1-\epsilon)\log_{2}(1-\epsilon) + \epsilon\log_{2}\epsilon\biggr] - \frac{1}{2} \biggl[(1-\epsilon)\log_{2}(1-\epsilon) - (1-\epsilon)\cancelto{1}{\log_{2}2} + \epsilon\log_{2}\epsilon\biggr]                                                                                                                                                                                        \\
+          \alignedbox{ &= \frac{1}{2}(1-\epsilon)}
+        \end{align*}
       \end{solution}
     \end{parts}
   \end{questions}

@@ -12,6 +12,7 @@
   studentnumber=20053722,
   name={Bryan Hoang},
   draft,
+  % final,
 ]{
   ltxanswer%
 }
@@ -26,18 +27,137 @@
     \begin{parts}
       \part{}
       \begin{solution}
-        42.
+        Let \(\mathbb{Q}\) be the transition matrix of the Markov source. The transition probabilities making up the entries of \(\mathbb{Q}\) are as follows:
+        \begin{gather*}
+          p_{0,0} = \frac{T-R+\Delta}{T+\Delta} \cdot \frac{T^{-1}}{T^{-1}} = \frac{1-\rho+\delta}{1+\delta} \\
+          p_{0,1} = \frac{R}{T+\Delta} \cdot \frac{T^{-1}}{T^{-1}} = \frac{\rho}{1+\delta}                   \\
+          p_{1,0} = \frac{T-R}{T+\Delta} \cdot \frac{T^{-1}}{T^{-1}} = \frac{1-\rho}{1+\delta}               \\
+          p_{1,1} = \frac{R+\Delta}{T+\Delta} \cdot \frac{T^{-1}}{T^{-1}} = \frac{\rho+\delta}{1+\delta} \\
+          \Rightarrow \boxed{
+            \mathbb{Q} = \begin{bmatrix}
+              \frac{1-\rho+\delta}{1+\delta} & \frac{\rho}{1+\delta}        \\
+              \frac{1-\rho}{1+\delta}        & \frac{\rho+\delta}{1+\delta}
+            \end{bmatrix}
+          }
+        \end{gather*}
+        Let \(\pi = (\pi_{0},\pi_{1})\) be the stationary distribution of the Markov source. It satisfies the property of remaining unchanged by the operation of transition matrix on it, which gives
+        \begin{align*}
+          \pi               &= \pi\mathbb{Q}                                                                   \\
+          (\pi_{0},\pi_{1}) &= (\pi_{0},\pi_{1}) \begin{bmatrix}
+                                                   \frac{1-\rho+\delta}{1+\delta} & \frac{\rho}{1+\delta}        \\
+                                                   \frac{1-\rho}{1+\delta}        & \frac{\rho+\delta}{1+\delta}
+                                                 \end{bmatrix}
+        \end{align*}
+        \begin{empheq}[left={\Rightarrow\empheqlbrace}]{alignat*=2}
+          &\pi_{0} &&= \frac{1-\rho+\delta}{1+\delta} \pi_{0} + \frac{1-\rho}{1+\delta}\pi_{1} \\
+          &\pi_{1} &&= \frac{\rho}{1+\delta} \pi_{0} + \frac{\rho+\delta}{1+\delta}\pi_{1}
+        \end{empheq}
+        \begin{empheq}[left={\Rightarrow\empheqlbrace}]{alignat*=2}
+          &\cancel{\pi_{0}} + \cancel{\delta\pi_{0}} &&= \cancel{\pi_{0}} - \rho\pi_{0} + \cancel{\delta\pi_{0}} + \pi_{1} - \rho\pi_{1} \\
+          &\pi_{1} + \cancel{\delta\pi_{1}} &&= \rho\pi_{0} + \rho\pi_{1} + \cancel{\delta\pi_{1}}
+        \end{empheq}
+        \begin{empheq}[left={\Rightarrow\empheqlbrace}]{alignat=2}
+          &\pi_{0} &&= \frac{1-\rho}{\rho}\pi_{1}\label{eq:pi-0} \\
+          &\pi_{1} &&= \frac{\rho}{1-\rho}\pi_{0}\label{eq:pi-1}
+        \end{empheq}
+        \begin{equation*}
+          \eqref{eq:pi-0} + \eqref{eq:pi-1} \Rightarrow \pi_{0} + \pi_{1} = \frac{1-\rho}{\rho}\pi_{1} + \frac{\rho}{1-\rho}\pi_{0}
+        \end{equation*}
+        \begin{equation}\label{eq:1}
+          \Rightarrow 1 = \frac{1-\rho}{\rho}\pi_{1} + \frac{\rho}{1-\rho}\pi_{0}
+        \end{equation}
+        since \(\pi\) is a probability distribution. Then
+        \begin{align*}
+          \eqref{eq:pi-0} \rightarrow\eqref{eq:1} \Rightarrow 1               &= \frac{1-\rho}{\rho}\pi_{1} + \cancel{\frac{\rho}{1-\rho}}\left(\cancel{\frac{1-\rho}{\rho}}\pi_{1}\right) \\
+          \rho                                                                &= \pi_{1} - \rho\pi_{1} + \rho\pi_{1}                                                                       \\
+          \pi_{1}                                                             &= \rho\numberthis\label{eq:pi-1-rho}                                                                        \\
+          \eqref{eq:pi-1-rho} \rightarrow \eqref{eq:pi-0} \Rightarrow \pi_{0} &= \frac{1-\rho}{\cancel{\rho}}\cancel{\rho}                                                                 \\
+          \pi_{0}                                                             &= 1-\rho
+        \end{align*}
+        Therefore, the stationary distribution of the Markov source is \(\boxed{\pi=(1-\rho,\rho)}\).
+
+        According to Example 3.17 in the textbook and by the fact that the time-invariant Markov source has its initial distribution \(p_{Z_{1}}\) given by the stationary distribution \(\pi\) (i.e., \(p_{Z_{1}}=\pi\)), \textbf{the Markov source is indeed a stationary process.}
       \end{solution}
 
       \part{}
       \begin{solution}
-        42.
+        Since the Markov source is a stationary process, it is also identically distributed. Then by the chain rule for mutual entropy,
+        \begin{align*}
+          I(Z_{2};Z_{3}) &= I(Z_{3};Z_{2})                                                                                                                                                                                      \\
+                         &= H(Z_{3}) - H(Z_{3}|Z_{2})\numberthis\label{eq:mutual-information-chain-rule}                                                                                                                        \\
+                         &= H(Z_{1}) - H(Z_{2}|Z_{1})\quad \because \text{the Markov source is ID and TI}                                                                                                                       \\
+                         &= -\sum_{a\in\mathcal{X}} p_{Z_{1}}(a)\log_{2}p_{Z_{1}}(a) + \sum_{a\in\mathcal{X}}\sum_{b\in\mathcal{X}} p_{Z_{2},Z_{1}}(b,a)\log_{2}p_{Z_{2}|Z_{1}}(b|a)                                            \\
+                         &= -\sum_{a\in\mathcal{X}} p_{Z_{1}}(a)\log_{2}p_{Z_{1}}(a) + \sum_{a\in\mathcal{X}}p_{Z_{1}}(a)\sum_{b\in\mathcal{X}} p_{Z_{2}|Z_{1}}(b|a)\log_{2}p_{Z_{2}|Z_{1}}(b|a)                                \\
+                         &= [-(1-\rho)\log_{2}(1-\rho)-\rho\log_{2}\rho]                                                                                                                                                        \\
+                         &\phantomeq + \Biggl[(1-\rho)\Bigl[\left(1-\frac{\rho}{1+\delta}\right)\log_{2}\left(1-\frac{\rho}{1+\delta}\right) + \frac{\rho}{1+\delta}\log_{2}\frac{\rho}{1+\delta}\Bigr]                         \\
+                         &\phantomeq + \rho\Bigl[\frac{1-\rho}{1+\delta}\log_{2}\frac{1-\rho}{1+\delta} + \frac{\rho+\delta}{1+\delta}\log_{2}\frac{\rho+\delta}{1+\delta}\Bigr]\Biggr]\numberthis\label{eq:mutual-information}
+        \end{align*}
+        Let
+        \begin{equation}\label{eq:binary-entropy-function}
+          h(p)=-(1-p)\log_{2}(1-p)-p\log_{2}p
+        \end{equation}
+        be the binary entropy function. Then the expression for \(I(Z_{2};Z_{3})\) in~\eqref{eq:mutual-information} can be re-written as
+        \begin{equation*}
+          \boxed{I(Z_{2};Z_{3}) = h(\rho)-(1-\rho)h\Bigl(\frac{\rho}{1+\delta}\Bigr)-\rho h\Bigl(\frac{\rho+\delta}{1+\delta}\Bigr)}
+        \end{equation*}
+
+        Applying the chain rule to the conditional mutual entropy gives
+        \begin{align*}
+          I(Z_{2};Z_{3}|Z_{1}) &= I(Z_{3};Z_{2}|Z_{1})                                                                                                                                   \\
+                               &= H(Z_{3}|Z_{1}) - H(Z_{3}|Z_{1},Z_{2})                                                                                                                  \\
+                               &= H(Z_{3}|Z_{1}) - H(Z_{3}|Z_{2})       & &\because \text{the Markov source has memory 1}\numberthis\label{eq:conditional-mutual-information-chain-rule} \\
+                               &= H(Z_{3}|Z_{1}) - H(Z_{2}|Z_{1})       & &\because \text{the Markov source is ID and TI}\numberthis\label{eq:chain-rule}
+        \end{align*}
+        \(H(Z_{2}|Z_{1})\) has been calculated as the second top level term in~\eqref{eq:mutual-information}. To calculate \(H(Z_{3}|Z_{1})\), we will need \([p_{Z_{3}|Z_{1}}(b|a)] = \mathbb{Q}^{2}\ \forall a,b\in\mathcal{X}\).
+        \begin{align*}
+          \mathbb{Q}^2 &= \begin{bmatrix}
+                            1-\frac{\rho}{1+\delta} & \frac{\rho}{1+\delta}        \\[1ex]
+                            \frac{1-\rho}{1+\delta} & \frac{\rho+\delta}{1+\delta} \\
+                          \end{bmatrix} \cdot \begin{bmatrix}
+                                                1-\frac{\rho}{1+\delta} & \frac{\rho}{1+\delta}        \\[1ex]
+                                                \frac{1-\rho}{1+\delta} & \frac{\rho+\delta}{1+\delta} \\
+                                              \end{bmatrix}                                                                                                       \\
+                       &= \begin{bmatrix}
+                            \Bigl(1-\frac{\rho}{1+\delta}\Bigr)^2 + \frac{\rho(1-\rho)}{(1+\delta)^2}                                           & \Bigl(1-\frac{\rho}{1+\delta}\Bigr)\Bigl(\frac{\rho}{1+\delta}\Bigr) + \frac{\rho(\rho+\delta)}{(1+\delta)^2} \\
+                            \Bigl(1-\frac{\rho}{1+\delta}\Bigr)\Bigl(\frac{1-\rho}{1+\delta}\Bigr) + \frac{(\rho+\delta)(1-\rho)}{(1+\delta)^2} & \frac{\rho(1-\rho)}{(1+\delta)^2} + \Bigl(\frac{\rho+\delta}{1+\delta}\Bigr)^2
+                          \end{bmatrix} \\
+                       &= \begin{bmatrix}
+                            1-\frac{\rho(2\delta+1)}{(1+\delta)^2}          & \frac{\rho(2\delta+1)}{(1+\delta)^2}          \\[1ex]
+                            1-\frac{\rho(2\delta+1)+\delta^2}{(1+\delta)^2} & \frac{\rho(2\delta+1)+\delta^2}{(1+\delta)^2}
+                          \end{bmatrix}                                                                                                      \\
+                       &= \begin{bmatrix}
+                            p_{Z_{3}|Z_{1}} (0|0) & p_{Z_{3}|Z_{1}} (1|0) \\[1ex]
+                            p_{Z_{3}|Z_{1}} (0|1) & p_{Z_{3}|Z_{1}} (1|1)
+                          \end{bmatrix}\numberthis\label{eq:transition-matrix}
+        \end{align*}
+        Then
+        \begin{align*}
+           &\phantomeq H(Z_{3}|Z_{1})                                                                                                                                                                                                                           \\
+           &= -\sum_{a\in\mathcal{X}}\sum_{b\in\mathcal{X}} p_{Z_{3},Z_{1}}(b,a)\log_{2}p_{Z_{3}|Z_{1}}(b|a)                                                                                                                                                    \\
+           &= -\sum_{a\in\mathcal{X}}p_{Z_{1}}(a)\sum_{b\in\mathcal{X}} p_{Z_{3}|Z_{1}}(b|a)\log_{2}p_{Z_{3}|Z_{1}}(b|a)                                                                                                                                        \\
+           &= (1-\rho)\Bigl[-p_{Z_{3}|Z_{1}}(0|0)\log_{2}p_{Z_{3}|Z_{1}}(0|0) - p_{Z_{3}|Z_{1}}(1|0)\log_{2}p_{Z_{3}|Z_{1}}(1|0)\Bigr]                                                                                                                          \\
+           &\phantomeq + \rho\Bigl[-p_{Z_{3}|Z_{1}}(0|1)\log_{2}p_{Z_{3}|Z_{1}}(0|1) - p_{Z_{3}|Z_{1}}(1|1)\log_{2}p_{Z_{3}|Z_{1}}(1|1)\Bigr]                                                                                                                   \\
+           &= (1-\rho)h\biggl(\frac{\rho(2\delta+1)}{(1+\delta)^2}\biggr) + \rho h\biggl(\frac{\rho(2\delta+1)+\delta^2}{(1+\delta)^2}\biggr) & &\text{by~\eqref{eq:binary-entropy-function} and~\eqref{eq:transition-matrix}}\numberthis\label{eq:h-3-given-1}
+        \end{align*}
+        Thus, combining the results from~\eqref{eq:chain-rule},~\eqref{eq:h-3-given-1},~\eqref{eq:mutual-information}, and~\eqref{eq:binary-entropy-function} gives
+        \begin{align*}
+                       &=\phantomeq I(Z_{2};Z_{3}|Z_{1})                                                                                                                                                                                                                                \\
+                       &= H(Z_{3}|Z_{1}) - H(Z_{2}|Z_{1})                                                                                                                                                                                                                               \\
+                       &= \Biggl[(1-\rho)h\biggl(\frac{\rho(2\delta+1)}{(1+\delta)^2}\biggr) + \rho h\biggl(\frac{\rho(2\delta+1)+\delta^2}{(1+\delta)^2}\biggr)\Biggr] - \Biggl[(1-\rho)h\biggl(\frac{\rho}{1+\delta}\biggr) + \rho h\biggl(\frac{\rho+\delta}{1+\delta}\biggr)\Biggr] \\
+          \alignedbox{ &= (1-\rho)\Biggl[h\biggl(\frac{\rho(2\delta+1)}{(1+\delta)^2}\biggr) - h\biggl(\frac{\rho}{1+\delta}\biggr) \Biggr] + \rho\Biggl[h\biggl(\frac{\rho(2\delta+1)+\delta^2}{(1+\delta)^2}\biggr) - h\biggl(\frac{\rho+\delta}{1+\delta}\biggr)\Biggr]}
+        \end{align*}
       \end{solution}
 
       \part{}
       \begin{solution}
         \begin{proof}
-          42.
+          From~\eqref{eq:mutual-information-chain-rule} and~\eqref{eq:conditional-mutual-information-chain-rule}, we have
+          \begin{align*}
+            I(Z_{2};Z_{3}) - I(Z_{2};Z_{3}|Z_{1}) &= H(Z_{3}) - H(Z_{3}|Z_{2}) - H(Z_{3}|Z_{1}) + H(Z_{3}|Z_{2}) \\
+                                                  &= H(Z_{3}) - H(Z_{3}|Z_{1})                                   \\
+                                                  &\ge 0
+          \end{align*}
+          since conditiong reduces entropy, and \(Z_{3}\) is not independent of \(Z_{1}\).
         \end{proof}
       \end{solution}
     \end{parts}

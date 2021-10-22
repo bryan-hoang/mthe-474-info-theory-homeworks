@@ -12,6 +12,7 @@
   studentnumber=20053722,
   name={Bryan Hoang},
   draft,
+  % final,
 ]{
   ltxanswer%
 }
@@ -25,7 +26,16 @@
     \question[15]{}
     \begin{solution}
       \begin{proof}
-        42.
+        Suppose that \(X \rightarrow Y \rightarrow (Z,W)\) form a Markov chain.
+        Then we have
+        \begin{align*}
+           &\phantomeq I(X;Y) + I(Z;W)                                                      \\
+           &\ge I(X;Z,W) + I(Z;W)                 & &\qquad \text{by the DPI}               \\
+           &= I(X;Z,W) + I(Z;W) + I(X;Z) - I(X;Z)                                           \\
+           &= I(X;Z) + I(Z;W) + I(X;W|Z)          & &\qquad \text{by the chain rule for MI} \\
+           &= I(X;Z) + I(X,Z;W)                   & &\qquad \text{by the chain rule for MI} \\
+           &\ge I(X;Z) + I(X;W)                   & &\qquad \text{by the chain rule for MI} \\
+        \end{align*}
       \end{proof}
     \end{solution}
   \end{questions}
