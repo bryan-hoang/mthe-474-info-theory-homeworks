@@ -75,7 +75,6 @@
           \begin{align*}
             D(p||q) &= \E_{p}\left[\log\frac{p(X)}{q(X)}\right]                                                                    \\
                     &= \E_{p}\left[-\log\frac{q(X)}{p(X)}\right]                                                                   \\
-                    &= \E_{p}\left[-\log\frac{q(X)}{p(X)}\right]                                                                   \\
                     &= \E_{p}[f(Y)]                                                                                                \\
                     &\ge f(\E[Y])                                                                 & &\text{by Jensen's Inequality} \\
                     &= -\log\sum_{x\in\mathcal{X}} \frac{q(x)}{\cancel{p(x)}} \cdot \cancel{p(x)}                                  \\

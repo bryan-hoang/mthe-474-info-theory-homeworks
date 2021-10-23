@@ -12,6 +12,7 @@
   studentnumber=20053722,
   name={Bryan Hoang},
   draft,
+  % final,
 ]{
   ltxanswer%
 }
@@ -33,14 +34,63 @@
         \subpart{}
         \begin{solution}
           \begin{proof}
-            42.
+            To prove the result, it is sufficient to show that \(\forall n \in \mathbb{Z}_{\ge0}\),
+            \begin{align*}
+              \frac{1}{n-1}H(X_{(n-1)+1}^{2(n-1)}|X^{n-1})                            &\ge \frac{1}{n}H(X_{n+1}^{2n}|X^{n}) \\
+              \frac{1}{n-1}H(X_{n}^{2n-2}|X^{n-1}) - \frac{1}{n}H(X_{n+1}^{2n}|X^{n}) &\ge 0
+            \end{align*}
+            Thus, we have
+            \begin{align*}
+               &\phantomeq \frac{1}{n-1}H(X_{n}^{2n-2}|X^{n-1}) - \frac{1}{n}H(X_{n+1}^{2n}|X^{n})                                                                                                                  \\
+               &= \frac{1}{n-1} H(X_{n}^{2n-2}|X^{n-1}) - \frac{1}{n} H(X_{n+1}^{2n}|X^{n})                                                                                                                         \\
+               &= \frac{1}{n-1} \biggl[H(X_{1}^{2n-2}) - H(X^{n-1})\biggr] - \frac{1}{n} \biggl[H(X_{1}^{2n}) - H(X^{n})\biggr]                                                                                     \\
+               &= \frac{1}{n-1} \biggl[\sum_{i=1}^{2n-2} H(X_{i}|X^{i-1}) - \sum_{i=1}^{n-1} H(X_{i}|X^{i-1})\biggr] - \frac{1}{n} \biggl[\sum_{i=1}^{2n} H(X_{i}|X^{i-1}) - \sum_{i=1}^{n} H(X_{i}|X^{i-1})\biggr] \\
+               &= \frac{1}{n-1} \biggl[\sum_{i=n}^{2n-2} H(X_{i}|X^{i-1})\biggr] - \frac{1}{n} \biggl[\sum_{i=n+1}^{2n} H(X_{i}|X^{i-1})\biggr]                                                                     \\
+              \intertext{By the stationarity of the source, we can re-index the first summation.}
+               &= \frac{1}{n-1} \biggl[\sum_{i=n+1}^{2n-1} H(X_{i}|X_{2}^{i-1})\biggr] - \frac{1}{n} \biggl[\sum_{i=n+1}^{2n} H(X_{i}|X^{i-1})\biggr]                                                               \\
+               &= \frac{1}{n(n-1)} \biggl[\sum_{i=n+1}^{2n-1} nH(X_{i}|X_{2}^{i-1}) - (n-1)H(X_{i}|X_{1}^{i-1}) \biggr] - \frac{1}{n} H(X_{2n}|X^{2n-1})                                                            \\
+              \intertext{Since conditioning reduces entropy, we then have that}
+               &\ge \frac{1}{n(n-1)} \biggl[\sum_{i=n+1}^{2n-1} nH(X_{i}|X_{1}^{i-1}) - (n-1)H(X_{i}|X_{1}^{i-1}) \biggr] - \frac{1}{n} H(X_{2n}|X^{2n-1})                                                          \\
+               &= \frac{1}{n(n-1)} \biggl[\sum_{i=n+1}^{2n-1} H(X_{i}|X_{1}^{i-1})\biggr] - \frac{1}{n(n-1)}(n-1) H(X_{2n}|X^{2n-1})                                                                                \\
+               &= \frac{1}{n(n-1)} \biggl[\sum_{i=n+1}^{2n-1} \underbrace{H(X_{i}|X_{1}^{i-1}) - H(X_{2n}|X^{2n-1})}_{D_{i}}\biggr]                                                                                 \\
+               &\ge 0
+            \end{align*}
+            since the sequence of conditional entropies of a stationary source is nonincreasing, we have that \(D_{i} \ge 0,\ \forall i \in \{n+1, \dotsc, 2n-1\}\)
           \end{proof}
         \end{solution}
 
         \subpart{}
         \begin{solution}
           \begin{proof}
-            42.
+            \begin{proofpart} % 1
+              Showing that \(H(X_{2n}|X^{2n-1}) \le \frac{1}{n}H(X_{n+1}^{2n}|X^{n})\).
+              \begin{align*}
+                 &\phantomeq \frac{1}{n}H(X_{n+1}^{2n}|X^{n}) - H(X_{2n}|X^{2n-1})                                                   \\
+                 &= \frac{1}{n}\bigl[H(X^{2n}) - H(X^{n})\bigr] - H(X_{2n}|X^{2n-1})                                                 \\
+                 &= \frac{1}{n}\biggl[\sum_{i=1}^{2n} H(X_{i}|X^{i-1}) - \sum_{i=1}^{n} H(X_{i}|X^{i-1})\biggr] - H(X_{2n}|X^{2n-1}) \\
+                 &= \frac{1}{n}\biggl[\sum_{i=n+1}^{2n} H(X_{i}|X^{i-1})\biggr] - \frac{1}{n} \cdot n H(X_{2n}|X^{2n-1})             \\
+                 &= \frac{1}{n}\biggl[\sum_{i=n+1}^{2n} \underbrace{H(X_{i}|X^{i-1}) - H(X_{2n}|X^{2n-1})}_{D_{i}}\biggr]            \\
+                 &\ge 0
+              \end{align*}
+              since the sequence of conditional entropies of a stationary source is nonincreasing, we have that \(\forall i \in \{n+1,\dotsc,2n\}\),
+              \begin{equation*}
+                \begin{cases}
+                  D_{i} \ge 0 &\text{if } i \neq 2n, \\
+                  D_{i} = 0   &\text{if } i = 2n.
+                \end{cases}
+              \end{equation*}
+            \end{proofpart}
+            \begin{proofpart} % 2
+              Showing that \(\frac{1}{n}H(X_{n+1}^{2n}|X^{n}) \le \frac{1}{n}H(X^{n})\).
+              \begin{align*}
+                 &\phantomeq \frac{1}{n}H(X^{n}) - \frac{1}{n}H(X_{n+1}^{2n}|X^{n})                                                                                    \\
+                 &= \frac{1}{n} \Bigl[H(X^{n}) - \bigl(H(X^{2n}) - H(X^{n})\bigr) \Bigr]                                                                               \\
+                 &= \frac{1}{n} \Bigl[H(X^{n}) - \bigl(H(X^{n}|X_{n+1}^{2n}) + H(X_{n+1}^{2n}) - H(X^{n})\bigr) \Bigr]                                                 \\
+                 &= \frac{1}{n} \Bigl[H(X^{n}) - \bigl(H(X^{n}|X_{n+1}^{2n}) + H(X^{n}) - H(X^{n})\bigr) \Bigr]        & &\text{by stationarity}                       \\
+                 &= \frac{1}{n} \bigl[H(X^{n}) - H(X^{n}|X_{n+1}^{2n})\bigr]                                                                                           \\
+                 &\ge 0                                                                                                & &\because \text{conditioning reduces entropy}
+              \end{align*}
+            \end{proofpart}
           \end{proof}
         \end{solution}
       \end{subparts}

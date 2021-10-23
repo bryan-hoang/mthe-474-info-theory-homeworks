@@ -12,6 +12,7 @@
   studentnumber=20053722,
   name={Bryan Hoang},
   draft,
+  % final,
 ]{
   ltxanswer%
 }
@@ -32,22 +33,108 @@
       \begin{subparts}
         \subpart{}
         \begin{solution}
-          42.
+          To determine the entropy rate of the stationary Markov source, we need to determine its stationary (and hence initial) distribution.
+
+          First, note that the transition matrix \(\mathbb{Q}\) of the Markov source is
+          \begin{equation*}
+            \mathbb{Q} = \begin{bmatrix}
+              1-\gamma & \gamma  & 0        \\
+              0        & 1-\beta & \beta    \\
+              \alpha   & 0       & 1-\alpha
+            \end{bmatrix}
+          \end{equation*}
+          Let \(\pi=(\pi_{0},\pi_{1},\pi_{2})\) be stationary distribution of the Markov source. Then
+          \begin{align*}
+            \pi                       &= \pi\mathbb{Q}                                                             \\
+            (\pi_{0},\pi_{1},\pi_{2}) &= (\pi_{0},\pi_{1},\pi_{2})\begin{bmatrix}
+                                                                    1-\gamma & \gamma  & 0        \\
+                                                                    0        & 1-\beta & \beta    \\
+                                                                    \alpha   & 0       & 1-\alpha
+                                                                  \end{bmatrix} \\
+            \Rightarrow               &\begin{cases}
+                                         \pi_{0} = (1-\gamma)\pi_{0} + \alpha\pi_{2} \\
+                                         \pi_{1} = \gamma\pi_{0} + (1-\beta)\pi_{1}  \\
+                                         \pi_{2} = \beta\pi_{1} + (1-\alpha)\pi_{2}
+                                       \end{cases}\numberthis\label{eq:stationary-distribution-a}
+          \end{align*}
+          Solving~\eqref{eq:stationary-distribution-a} in addition to \(\pi_{0}+\pi_{1}+\pi_{2}=1\) yields
+          \begin{equation*}
+            \pi = \biggl(\frac{\alpha\beta}{\alpha\beta+\alpha\gamma+\beta\gamma}, \frac{\alpha\gamma}{\alpha\beta+\alpha\gamma+\beta\gamma}, \frac{\beta\gamma}{\alpha\beta+\alpha\gamma+\beta\gamma}\biggr).
+          \end{equation*}
+          Thus, the entropy rate is
+          \begin{align*}
+            H(\mathcal{X}) &= H(X_{2}|X_{1})                                                                                                                                                                                                          \\
+                           &= -\sum_{x_{1}\in\mathcal{X}}\sum_{x_{2}\in\mathcal{X}} \pi(x_{1}) P_{X_{2}|X_{1}}(x_{2}|x_{1}) \log_{2}P_{X_{2}|X_{1}}(x_{2}|x_{1})                                                                                      \\
+                           &= \frac{\alpha\beta}{\alpha\beta+\alpha\gamma+\beta\gamma}\bigl[(1-\gamma)\log_{2}(1-\gamma) + \gamma\log_{2}\gamma\bigr]                                                                                                 \\
+                           &\phantomeq + \frac{\alpha\gamma}{\alpha\beta+\alpha\gamma+\beta\gamma}\bigl[(1-\beta)\log_{2}(1-\beta) + \beta\log_{2}\beta\bigr]                                                                                         \\
+                           &\phantomeq + \frac{\beta\gamma}{\alpha\beta+\alpha\gamma+\beta\gamma}\bigl[(1-\alpha)\log_{2}(1-\alpha) + \alpha\log_{2}\alpha\bigr]                                                                                      \\
+            \alignedbox{   &= \frac{\alpha\beta}{\alpha\beta+\alpha\gamma+\beta\gamma}h_{b}(\gamma) + \frac{\alpha\gamma}{\alpha\beta+\alpha\gamma+\beta\gamma}h_{b}(\beta) + \frac{\beta\gamma}{\alpha\beta+\alpha\gamma+\beta\gamma}h_{b}(\alpha),}
+          \end{align*}
+          where \(h_{b}(\alpha) \coloneqq (1-\alpha)\log_{2}(1-\alpha) + \alpha\log_{2}\alpha\) is the binary entropy function.
         \end{solution}
 
         \subpart{}
         \begin{solution}
-          42.
+          If \(\alpha=1\), then the transition matrix \(\mathbb{Q}\) becomes
+          \begin{equation*}
+            \mathbb{Q} = \begin{bmatrix}
+              1-\gamma & \gamma  & 0     \\
+              0        & 1-\beta & \beta \\
+              1        & 0       & 0
+            \end{bmatrix},
+          \end{equation*}
+          and the stationary distribution \(\pi\) becomes
+          \begin{equation*}
+            \pi = \biggl(\frac{\beta}{\beta+\gamma+\beta\gamma}, \frac{\gamma}{\beta+\gamma+\beta\gamma}, \frac{\beta\gamma}{\beta+\gamma+\beta\gamma}\biggr).
+          \end{equation*}
+          Since a unique stationary distribution still exists, \textbf{the Markov source \(\{X_{n}\}\) is irreducible}. Thus, the entropy rate in this case is
+          \begin{align*}
+            H(\mathcal{X}) &= H(X_{2}|X_{1})                                                                                                                                                                     \\
+                           &= -\sum_{x_{1}\in\mathcal{X}}\sum_{x_{2}\in\mathcal{X}} \pi(x_{1}) P_{X_{2}|X_{1}}(x_{2}|x_{1}) \log_{2}P_{X_{2}|X_{1}}(x_{2}|x_{1})                                                 \\
+                           &= \frac{\beta}{\beta+\gamma+\beta\gamma}\bigl[(1-\gamma)\log_{2}(1-\gamma) + \gamma\log_{2}\gamma\bigr]                                                                              \\
+                           &\phantomeq + \frac{\gamma}{\beta+\gamma+\beta\gamma}\bigl[(1-\beta)\log_{2}(1-\beta) + \beta\log_{2}\beta\bigr] + \cancel{\frac{\beta\gamma}{\beta+\gamma+\beta\gamma}\bigl[0\bigr]} \\
+            \alignedbox{   &= \frac{\beta}{\beta+\gamma+\beta\gamma}h_{b}(\gamma) + \frac{\gamma}{\beta+\gamma+\beta\gamma}h_{b}(\beta),}
+          \end{align*}
         \end{solution}
 
         \subpart{}
         \begin{solution}
-          42.
+          If \(\alpha=1\) and \(\beta=\gamma=\frac{1}{3}\), then the transition matrix \(\mathbb{Q}\) becomes
+          \begin{equation*}
+            \mathbb{Q} = \begin{bmatrix}
+              \frac{2}{3} & \frac{1}{3} & 0           \\
+              0           & \frac{2}{3} & \frac{1}{3} \\
+              1           & 0           & 0
+            \end{bmatrix}
+          \end{equation*}
+          and the stationary distribution \(\pi\) becomes
+          \begin{equation*}
+            \pi = \bigl(\frac{3}{7},\frac{3}{7},\frac{1}{7}\bigr).
+          \end{equation*}
+          Then computing the source redundancies gives
+          \begin{align*}
+            \rho_{D}     &= \log_{2}\abs{\mathcal{X}} - H(X_{1})                                                                                                                                                                                                          \\
+                         &= \log_{2}3 - \biggl[- \frac{3}{7}\log_{2}\frac{3}{7} - \frac{3}{7}\log_{2}\frac{3}{7} - \frac{1}{7}\log_{2}\frac{1}{7}\biggr]                                                                                                                  \\
+            \alignedbox{ &\approx \qty{0.136}{\bits}}                                                                                                                                                                                                                     \\
+            \rho_{M}     &= H(X_{1}) - H(\mathcal{X})                                                                                                                                                                                                                     \\
+                         &= \log_{2}3 - \biggl[\frac{(\frac{1}{3})}{(\frac{1}{3})+(\frac{1}{3})+(\frac{1}{3})(\frac{1}{3})}h_{b}\Bigl(\frac{1}{3}\Bigr) + \frac{(\frac{1}{3})}{(\frac{1}{3})+(\frac{1}{3})+(\frac{1}{3})(\frac{1}{3})}h_{b}\Bigl(\frac{1}{3}\Bigr)\biggr] \\
+            \alignedbox{ &\approx \qty{0.662}{\bits}}                                                                                                                                                                                                                     \\
+            \rho_{T}     &= \rho_{D} + \rho_{M}                                                                                                                                                                                                                           \\
+                         &\approx  \qty{0.136}{\bits} + \qty{0.662}{\bits}                                                                                                                                                                                                \\
+            \alignedbox{ &\approx \qty{0.798}{\bits}}
+          \end{align*}
         \end{solution}
 
         \subpart{}
         \begin{solution}
-          42.
+          Given that the the Markov source is stationary and irreducible, it follows that it is also ergodic. Hence, its sample average converges to a constnt given by the expected value. i.e., the WLLN holds for this Markov source. Thus, we have that
+          \begin{align*}
+                         &\phantomeq \lim_{n\to\infty} \frac{1}{n}\sum_{i=1}^{n} X_{i}      \\
+                         &= \expect{X_{1}}                                                  \\
+                         &= \sum_{x\in\mathcal{X}} x\pi(x)                                  \\
+                         &= 0 \cdot \frac{3}{7} + 1 \cdot \frac{3}{7} + 2 \cdot \frac{1}{7} \\
+            \alignedbox{ &= \frac{5}{7}}
+          \end{align*}
         \end{solution}
       \end{subparts}
     \end{parts}
