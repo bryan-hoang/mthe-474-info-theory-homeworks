@@ -11,21 +11,35 @@
   assignmentname={Homework \homeworknumber},
   studentnumber=20053722,
   name={Bryan Hoang},
+  swappartlabels,
   draft,
   % final,
 ]{
   ltxanswer%
 }
 
-\usepackage{bch-style}
+\usepackage[reduceproofspace]{bch-style}
 
 \begin{document}
   \begin{questions}
     \setcounter{question}{\questionnumber}
     \addtocounter{question}{-1}
-    \question[0]{}
-    \begin{solution}
-      42.
-    \end{solution}
+    \question[15]\
+    \begin{parts}
+      \part\
+      \begin{subparts}
+        \subpart{}
+        \begin{solution}
+          \begin{proof}
+            42.
+          \end{proof}
+        \end{solution}
+
+        \subpart{}
+        \begin{solution}
+          42.
+        \end{solution}
+      \end{subparts}
+    \end{parts}
   \end{questions}
 \end{document}

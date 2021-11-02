@@ -1,0 +1,64 @@
+% Provides macros manipulating strings of tokens.
+\RequirePackage{xstring}
+
+% Store the jobname as a string with category 11 characters.
+\edef\normaljobname{\expandafter\scantokens\expandafter{\jobname\noexpand}}
+\StrBetween{\normaljobname}{hw-}{-q}[\homeworknumber]
+\StrBehind{\normaljobname}{-q-}[\questionnumber]
+
+\documentclass[
+  coursecode={MTHE 474},
+  assignmentname={Homework \homeworknumber},
+  studentnumber=20053722,
+  name={Bryan Hoang},
+  draft,
+  % final,
+]{
+  ltxanswer%
+}
+
+\usepackage{bch-style}
+
+\begin{document}
+  \begin{questions}
+    \setcounter{question}{\questionnumber}
+    \addtocounter{question}{-1}
+    \question[10]\
+    \begin{parts}
+      \part{}
+      \begin{solution}
+        \(C=\{01,010,101\}\) is \textbf{not UD} since, for example, suppose we have that
+        \begin{align*}
+          a_{1} &\to 10   \\
+          a_{2} &\to 010  \\
+          a_{3} &\to 101.
+        \end{align*}
+        Then
+        \begin{equation*}
+          101010
+        \end{equation*}
+        can be decoded into codewords \(\underbrace{10}_{a_{1}},\underbrace{10}_{a_{1}},\underbrace{10}_{a_{1}}\) or codewords \(\underbrace{101}_{a_{3}},\underbrace{010}_{a_{2}}\).
+      \end{solution}
+
+      \part{}
+      \begin{solution}
+        \(C=\{0,01,011,0111\}\) is \textbf{UD} since it is a suffix code.
+      \end{solution}
+
+      \part{}
+      \begin{solution}
+        \(C=\{21,20,201,202,212\}\) is \textbf{UD} since it is a suffix code.
+      \end{solution}
+
+      \part{}
+      \begin{solution}
+        \(C=\{1,21,221,002,021,001\}\) is \textbf{UD} since it is a prefix code.
+      \end{solution}
+
+      \part{}
+      \begin{solution}
+        \(C=\{10,12,13,22,121,133,220,221,223\}\) is \textbf{UD} since it is a suffix code.
+      \end{solution}
+    \end{parts}
+  \end{questions}
+\end{document}
