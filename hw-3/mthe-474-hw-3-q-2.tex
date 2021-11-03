@@ -19,6 +19,17 @@
 
 \usepackage{bch-style}
 
+\makeatletter
+\def\pgfmathreciprocal@#1{%
+    \begingroup
+    % FIXME optimize
+    \pgfkeys{/pgf/fpu=true,/pgf/fpu/output format=fixed}%
+    \pgfmathparse{1/#1}%
+    \pgfmath@smuggleone\pgfmathresult
+    \endgroup
+}%
+\makeatother
+
 \begin{document}
   \begin{questions}
     \setcounter{question}{\questionnumber}
@@ -27,22 +38,78 @@
     \begin{parts}
       \part{}
       \begin{solution}
-        42.
+        Denote \(f(D)=\sum_{i=1}^{7} D^{-l_{i}}\) For the integers \(l_{1},\dotsc,l_{7}\) to satisfy Kraft's inequality, we want
+        \begin{align*}
+          f(D) &= \sum_{i=1}^{7} D^{-l_{i}}                                                                \\
+               &= D^{-l_{1}} + D^{-l_{2}} + D^{-l_{3}} + D^{-l_{4}} + D^{-l_{5}} + D^{-l_{6}} + D^{-l_{7}} \\
+               &= 2D^{-1} + 2D^{-2} + 2D^{-3} + D^{-4}                                                     \\
+               &\le 1
+        \end{align*}
+        Trying values of \(D \in \Z_{\ge2}\) yields
+        \begin{align*}
+          f(2) &= \frac{29}{16} \nleq 1 \\
+          f(3) &= \frac{79}{81} \leq 1.
+        \end{align*}
+        \(\therefore\) the integers \(l_{1},\dotsc,l_{7}\) satisfy Kraft's inequality in base \(\boxed{D=3}\).
       \end{solution}
 
       \part{}
       \begin{solution}
-        42.
+        \begin{claim}
+          \(\boxed{l_{7}^{*}=3}\) makes \(l_{1},\dotsc,l_{6},l_{7}^{*}\) satisfy Kraft's inequality in base 3 with equality.
+        \end{claim}
+        \begin{proof}
+          \begin{align*}
+            f(3) &= 3^{-l_{1}} + 3^{-l_{2}} + 3^{-l_{3}} + 3^{-l_{4}} + 3^{-l_{5}} + 3^{-l_{6}} + 3^{-l_{7}^{*}} \\
+                 &= 2(3)^{-1} + 2(3)^{-2} + 3(3)^{-3}                                                            \\
+                 &= 1
+          \end{align*}
+        \end{proof}
+      \end{solution}
+
+      \newpage
+      \part{}
+      \begin{solution}
+        \begin{answerfigure}
+          \begin{forest} huffman tree
+              [Root node,plain content
+                  [c_{1}]
+                  [c_{2}]
+                  [
+                    [c_{3}]
+                    [c_{4}]
+                    [
+                      [c_{5}]
+                      [c_{6}]
+                      [c_{7}]
+                    ]
+                  ]
+              ]
+          \end{forest}
+          \caption{Ternary Huffman tree}
+          \label{fig:huffman-tree}
+        \end{answerfigure}
+        From Figure~\ref{fig:huffman-tree}, a ternary prefix code with the integers \(l_{1},\dotsc,l_{6},l_{7}^{*}\) as its codeword lengths is \(\boxed{\mathcal{C}=\{0,1,20,21,220,221,222\}}\).
       \end{solution}
 
       \part{}
       \begin{solution}
-        42.
-      \end{solution}
-
-      \part{}
-      \begin{solution}
-        42.
+        Let \(\{X_{i}\}_{i=1}^{\infty}\) be a DMS with alphabet \(\mathcal{X}=\{a_{1},\dotsc,a_{7}\}\) and PMF \(p_{X}(a_{i})=p_{i}=3^{-l_{i}}\) where \(l_{i}\) is the length of codeword \(c_{i}\) for source symbol \(a_{i}\) for \(i\in\{1,\dotsc,7\}\). Then the Ternary Huffman code is
+        \begin{align*}
+          f:\mathcal{X} &\to \{0,1,2\}^{*} \\
+          a_{1}         &\to 0             \\
+          a_{2}         &\to 1             \\
+          a_{3}         &\to 20            \\
+          a_{4}         &\to 21            \\
+          a_{5}         &\to 220           \\
+          a_{6}         &\to 221           \\
+          a_{7}         &\to 222.
+        \end{align*}
+        The source's entropy is
+        \begin{align*}
+          H_{3}(X)     &= -\sum_{i=1}^{7} p_{i} \log_3 p_{i}                 \\
+          \alignedbox{ &= \qty[parse-numbers=false]{1.\overline{4}}{\trits}}
+        \end{align*}
       \end{solution}
     \end{parts}
   \end{questions}
