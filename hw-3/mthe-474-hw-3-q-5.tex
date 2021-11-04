@@ -18,6 +18,7 @@
 }
 
 \usepackage{bch-style}
+\sisetup{per-mode=fraction}
 
 \begin{document}
   \begin{questions}
@@ -27,12 +28,124 @@
     \begin{parts}
       \part{}
       \begin{solution}
-        42.
+        The transition probability matrix of the stationary Markov source is given by
+        \begin{equation*}
+          Q = \begin{bmatrix}
+            \alpha   & 1-\alpha \\
+            1-\alpha & \alpha
+          \end{bmatrix}
+        \end{equation*}
+        Since the source is stationary, \(P_{X_{i}}=\pi\), where \(\pi=(\pi_{1},\pi_{2})\) is the MC's stationary distribution. Then \(\pi\) satisfies
+        \begin{align*}
+          \pi               &= \pi Q                                      \\
+          (\pi_{1},\pi_{2}) &= (\pi_{1},\pi_{2}) \begin{bmatrix}
+                                                   \alpha   & 1-\alpha \\
+                                                   1-\alpha & \alpha
+                                                 \end{bmatrix}        \\
+          \Rightarrow       &\begin{cases}
+                               \pi_{1} = \pi_{1}\alpha + \pi_{2} (1-\alpha) \\
+                               \pi_{2} = \pi_{1}(1-\alpha) + \pi_{1}\alpha
+                             \end{cases}
+        \end{align*}
+        which upon solving it (with \(\pi_{1}+\pi_{2}=1\)), yields
+        \begin{align*}
+          \pi                             &= \biggl(\frac{1}{2},\frac{1}{2}\biggr)            \\
+          \therefore P_{X_{i}}(x) = p_{i} &= \frac{1}{2}, \quad \forall x\in\X, i\in\Z_{\ge1}
+        \end{align*}
+        Lets use Huffman codes in the design, which are always optimal.
+        \begin{proofpart}
+          First-order Huffman code \(\C_{1}\) \((n=1)\):
+          \begin{answerfigure}
+            \begin{forest}
+              huffman tree,
+              for tree={grow=west},
+              [Root node,plain content,
+                [a\quad\frac{1}{2}]
+                [b\quad\frac{1}{2}]
+              ]
+            \end{forest}
+          \end{answerfigure}
+          \begin{align*}
+            f:\mathcal{X} &\to \{0,1\}^{*} \\
+            a             &\to 0           \\
+            b             &\to 1
+          \end{align*}
+          Then the average code rate for \(\C_{1}\), \(\overline{R}_{1}\), is
+          \begin{align*}
+            \overline{R}_{1} &= \frac{\overline{l}_{1}}{1}                      \\
+                             &= \sum_{i=1}^{2} \overbrace{p_{i}}^{\pi_{i}}l_{i} \\
+                             &= \frac{1}{2}(1+1)                                \\
+            \alignedbox{     &= \qty{1}{\bits\per\source}}.
+          \end{align*}
+        \end{proofpart}
+
+        \begin{proofpart}
+          Second-order Huffman code \(\C_{2}\) \((n=2)\):
+
+          Let \(\widetilde{\X}=\X^{2}=\{aa,ab,ba,bb\}\) with probability distribution
+          \begin{align*}
+            p(aa) &= p_{X_{1}}(a)p_{X_{2}|X_{1}}(a|a) = \frac{1}{2} \cdot \alpha = \frac{\alpha}{2}  \\
+            p(ab) &= p_{X_{1}}(a)p_{X_{2}|X_{1}}(b|a) = \frac{1}{2} \cdot (1-\alpha)                 \\
+            p(ba) &= p_{X_{1}}(b)p_{X_{2}|X_{1}}(a|b) = \frac{1}{2} \cdot (1-\alpha)                 \\
+            p(bb) &= p_{X_{1}}(b)p_{X_{2}|X_{1}}(b|b) = \frac{1}{2} \cdot \alpha = \frac{\alpha}{2}.
+          \end{align*}
+          \begin{note}
+            \(\alpha\in(\frac{1}{3},\frac{1}{2})\Rightarrow 1-\alpha>\alpha\) and that \(\frac{1}{2}(1-\alpha)<\alpha\).
+          \end{note}
+          \begin{answerfigure}
+            \begin{forest}
+              huffman tree,
+              for tree={grow=west},
+              [Root node,plain content,
+                [(1-\alpha)
+                  [ab\quad\frac{1}{2}(1-\alpha)]
+                  [ba\quad\frac{1}{2}(1-\alpha)]
+                ]
+                [\alpha{}
+                  [aa\mkern70mu \alpha]
+                  [bb\mkern70mu \alpha]
+                ]
+              ]
+            \end{forest}
+          \end{answerfigure}
+          \begin{align*}
+            f:\mathcal{X} &\to \{0,1\}^{*} \\
+            ab            &\to 00          \\
+            ba            &\to 01          \\
+            aa            &\to 10          \\
+            bb            &\to 11
+          \end{align*}
+          Then the average code rate for \(\C_{2}\), \(\overline{R}_{2}\), is
+          \begin{align*}
+            \overline{R}_{2} &= \frac{\overline{l}_{2}}{2}                                                                      \\
+                             &= \frac{1}{2}\sum_{i=1}^{4} p_{i}l_{i}                                                            \\
+                             &= \frac{1}{2}\biggl(2\cdot \frac{1}{2}(1-\alpha) \cdot 2 + 2\cdot \frac{\alpha}{2} \cdot 2\biggr) \\
+            \alignedbox{     &= \qty{1}{\bits\per\source}}.
+          \end{align*}
+        \end{proofpart}
+        We have that \(\boxed{\overline{R}_{1}=\overline{R}_{2}}\).
       \end{solution}
 
       \part{}
       \begin{solution}
-        42.
+        The limit of the average coding rate of an \(n\)-th order optimal binary variable-length code for the source as \(n\to\infty\) is the source's entropy rate. i.e.,
+        \begin{equation*}
+          \lim_{n\to\infty} \overline{R} = H(\X).
+        \end{equation*}
+        The source entropy can be calculated as
+        \begin{align*}
+          H(\X)        &= H(X_{2}|X_{1})                                                                                                           \\
+                       &=-\sum_{i}\sum_{j} \overbrace{P_{X_{1}}(i)}^{\pi_{i}}\overbrace{P_{X_{2}|X_{1}}(j|i)}^{p_{ij}}\log_{2}P_{X_{2}|X_{1}}(j|i) \\
+                       &=-\sum_{i=1}^{2}\sum_{j=1}^{2} \pi_{i}p_{ij}\log_{2}p_{ij}                                                                 \\
+                       &= -\frac{1}{2}\biggl(2\alpha\log_{2}\alpha+2(1-\alpha)\log_{2}(1-\alpha)\biggr)                                            \\
+                       &= -\alpha\log_{2}\alpha-(1-\alpha)\log_{2}(1-\alpha)                                                                       \\
+          \alignedbox{ &= h_{b}(\alpha)}
+        \end{align*}
+        where \(h_{b}\) is the binary entropy function. This makes sense given part~(\ref{part@5@1}) since we have that
+        \begin{equation*}
+          H(\X) = h_{b}(\alpha) < \overline{R} = 1 < h_{b}(\alpha) + \frac{1}{n}, \quad \forall \alpha\in\Bigl(\frac{1}{3},\frac{1}{2}\Bigr), n=1,2
+        \end{equation*}
+        The fact that average code rate from part~(\ref{part@5@1}) didn't decrease as the order of the code increased can be attributed to the fact that \(\alpha\in(\frac{1}{3},\frac{1}{2})\). If it weren't the case, the lengths of the codewords in code \(\C_{2}\) could have been 1,2,3,3, which would have made its average code rate better compared to the first order code.
       \end{solution}
     \end{parts}
   \end{questions}
