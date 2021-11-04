@@ -27,17 +27,104 @@
     \begin{parts}
       \part{}
       \begin{solution}
-        42.
+        \begin{claim}
+          The statement is \fbox{true}.
+        \end{claim}
+        \begin{proof}
+          Let \(a_{1},a_{2}\), and \(a_{3}\) be source symbols we want to encode, with codewords \(c_{1},c_{2}\), and \(c_{3}\) of corresponding lengths \(l_{1},l_{2}\) and \(l_{3}\). We have 3 cases of binary prefix codes to consider.
+          \begin{proofcase}
+            WLOG, suppose that \(a_{1}\) is decoded first. That means \(c_{1}=00\). Then suppose that \(a_{2}\) is decoded next, which means that \(c_{2}=10\). The next part of the sequence, 110, can't be decoded by \(a_{1}\) or \(a_{2}\), so then \(a_{3}\) is decoded next. Then \(c_{3}=110\).
+
+            Continuing to decode the rest of the sequence yields \(a_{1},a_{2},010\). 010 can't be decoded using the available codewords used so far, so we must conclude that sequence can't be a concatenation of the codewords in this case.
+          \end{proofcase}
+          \begin{proofcase}
+            WLOG, suppose that \(a_{1}\) is decoded first. That means \(c_{1}=00\). Then suppose that \(a_{3}\) is decoded next, which means that \(c_{3}=101\). The next part of the sequence, 110, can't be decoded by \(a_{1}\) or \(a_{3}\), so then \(a_{2}\) is decoded next. Then \(c_{2}=10\).
+
+            Continuing to decode the rest of the sequence yields \(a_{1},a_{2},010\). 010 can't be decoded using the available codewords used so far, so we must conclude that sequence can't be a concatenation of the codewords in this case.
+          \end{proofcase}
+          \begin{proofcase}
+            WLOG, suppose that \(a_{3}\) is decoded first. That means \(c_{3}=001\). Then suppose that \(a_{1}\) is decoded next, which means that \(c_{1}=01\). The next part of the sequence, 10, can't be decoded by \(a_{3}\) or \(a_{1}\), so then \(a_{2}\) is decoded next. Then \(c_{2}=10\).
+
+            Continuing to decode the rest of the sequence yields \(a_{3},00\). 00 can't be decoded using the available codewords used so far, so we must conclude that sequence can't be a concatenation of the codewords in this case.
+          \end{proofcase}
+          In all possible cases of decode the sequence of bits with a binary prefix code, the sequence can't be a concatenation of the codewords in this case.
+
+          \(\therefore\) the statement is \textbf{true}.
+        \end{proof}
       \end{solution}
 
       \part{}
       \begin{solution}
-        42.
+        \begin{claim}
+          The statement is \fbox{false}.
+        \end{claim}
+        \begin{proof}
+          Since the source is uniformly distributed, we have that
+          \begin{equation*}
+            p_{X}(a_{i})=p_{i}=\frac{1}{9},\quad \forall i\in\{1,\dotsc,9\}.
+          \end{equation*}
+          Then applying Huffman's algorithm to create code \(\mathcal{C}\) yields
+          \newpage
+          \begin{answerfigure}
+            \begin{forest}
+              huffman tree,
+              for tree={grow=west},
+              [Root node,plain content,
+                [\frac{1}{3}
+                  [a_{1}\quad\frac{1}{9}]
+                  [a_{2}\quad\frac{1}{9}]
+                  [a_{3}\quad\frac{1}{9}]
+                ]
+                [\frac{1}{3}
+                  [a_{4}\quad\frac{1}{9}]
+                  [a_{5}\quad\frac{1}{9}]
+                  [a_{6}\quad\frac{1}{9}]
+                ]
+                [\frac{1}{3}
+                  [a_{7}\quad\frac{1}{9}]
+                  [a_{8}\quad\frac{1}{9}]
+                  [a_{9}\quad\frac{1}{9}]
+                ]
+              ]
+            \end{forest}
+            \caption{A Huffman tree used to design the Huffman code}
+            \label{fig:huffman-tree}
+          \end{answerfigure}
+          From Figure~\ref{fig:huffman-tree}, we can see that the Huffman code is
+          \begin{align*}
+            f:\mathcal{X} &\to \{0,1,2\}^{*} \\
+            a_{1}         &\to 00            \\
+            a_{2}         &\to 01            \\
+            a_{3}         &\to 02            \\
+            a_{4}         &\to 10            \\
+            a_{5}         &\to 11            \\
+            a_{6}         &\to 12            \\
+            a_{7}         &\to 20            \\
+            a_{8}         &\to 21            \\
+            a_{9}         &\to 22.           \\
+          \end{align*}
+          Hence, the length variance of the first-order Huffman code \(\mathcal{C}\) is
+          \begin{align*}
+            \Var(l(\C)) &= \E{l^{2}(\C)} - \E{l^{2}(\C)}^{2}                                                   \\
+                        &= \sum_{i=1}^{9} p_{i}l_{i}^{2} - \biggl(\sum_{i=1}^{9} p_{i}l_{i}\biggr)^{2}         \\
+                        &= \sum_{i=1}^{9} \frac{1}{9}(2)^{2} - \biggl(\sum_{i=1}^{9} \frac{1}{9}(2)\biggr)^{2} \\
+                        &=  4 - 2^{2}                                                                          \\
+                        &= 0.
+          \end{align*}
+          \(\therefore\) the statement is \textbf{false}.
+        \end{proof}
       \end{solution}
 
       \part{}
       \begin{solution}
-        42.
+        \begin{claim}
+          The statement is \fbox{true}.
+        \end{claim}
+        \begin{proof}
+          Since the source distribution is 2-adic, the binary first-order Shannon code is optimal. If one were to compare its average code rate to the average code rate of a binary first-order Huffman code, which is optimal, they would be the same.
+
+          \(\therefore\) the statement is \textbf{true}.
+        \end{proof}
       \end{solution}
     \end{parts}
   \end{questions}
