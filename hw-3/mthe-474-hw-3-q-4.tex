@@ -63,13 +63,15 @@
                          &= -\biggl(\frac{1}{4}\log_{4}\frac{1}{4} + 6\cdot\frac{1}{8}\log_{4}\frac{1}{8}\biggr) \\
             \alignedbox{ &= \qty{1.375}{\quaternary}}.
           \end{align*}
-          Thus, we have that \(\boxed{H_{4}(\X)<\overline{R}(\C,p_{2})<H_{4}(\X)+1}\).
+          Thus, we have that \(\boxed{H_{4}(\X)\leq\overline{R}(\C,p_{2})<H_{4}(\X)+1}\).
         \end{proofpart}
       \end{solution}
 
       \part{}
       \begin{solution}
-        42.
+        Qualitatively, the source distribution \(p_{1}\) is 4-adic which is a nice property to have since certain codes (e.g., Shannon code) will be optimal with this distribution.
+
+        In terms of compression efficiency, the corresponding average code rate for \(p_{2}\) is slightly greater than its entropy rate by part~(\ref{part@4@1}). But \(\bm{p_{1}}\) \textbf{is the preferable distribution} for the source since its corresponding average code rate is the same as its entropy rate and that \(\overline{R}(\C,p_{1})<\overline{R}(\C,p_{2})\), making it more efficient.
       \end{solution}
     \end{parts}
   \end{questions}
