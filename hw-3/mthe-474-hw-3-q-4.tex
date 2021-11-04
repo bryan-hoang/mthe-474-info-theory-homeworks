@@ -27,7 +27,44 @@
     \begin{parts}
       \part{}
       \begin{solution}
-        42.
+        Since the prefix code is first-order, \(n=1\).
+        \begin{proofpart}
+          \((p_{1})\)
+
+          Calculating \(\overline{R}(\C,p_{1})\) yields
+          \begin{align*}
+            \overline{R}(\C,p_{1}) &= \sum_{x\in\X} p_{1}(x)l(f(x))                              \\
+                                   &= 3 \cdot \frac{1}{4} \cdot 1 + 4 \cdot \frac{1}{16} \cdot 2 \\
+            \alignedbox{           &= \qty[per-mode=fraction]{1.25}{\quaternary\per\source}}.
+          \end{align*}
+          The theoretical limit of \(\overline{R}(\C,p_{1})\), the entropy rate \(H(\X)\) of the DMS, is
+          \begin{align*}
+            H_{4}(\X)    &= H_{4}(X)                                                                                     \\
+                         &= -\sum_{x\in\X} p_{1}(x)\log_{4}p_{1}(x)                                                      \\
+                         &= -\biggl(3\cdot\frac{1}{4}\log_{4}\frac{1}{4} + 4\cdot\frac{1}{16}\log_{4}\frac{1}{16}\biggr) \\
+            \alignedbox{ &= \qty{1.25}{\quaternary}}.
+          \end{align*}
+          Thus, we have that \(\boxed{\overline{R}(\C,p_{1})=H_{4}(\X)}\).
+        \end{proofpart}
+
+        \begin{proofpart}
+          \((p_{2})\)
+
+          Calculating \(\overline{R}(\C,p_{2})\) yields
+          \begin{align*}
+            \overline{R}(\C,p_{2}) &= \sum_{x\in\X} p_{2}(x)l(f(x))                                                   \\
+                                   &= \frac{1}{4} \cdot 1 + 2 \cdot \frac{1}{8} \cdot 1 + 4 \cdot \frac{1}{8} \cdot 2 \\
+            \alignedbox{           &= \qty[per-mode=fraction]{1.5}{\quaternary\per\source}}.
+          \end{align*}
+          The theoretical limit of \(\overline{R}(\C,p_{2})\), the entropy rate \(H(\X)\) of the DMS, is
+          \begin{align*}
+            H_{4}(\X)    &= H_{4}(X)                                                                             \\
+                         &= -\sum_{x\in\X} p_{2}(x)\log_{4}p_{2}(x)                                              \\
+                         &= -\biggl(\frac{1}{4}\log_{4}\frac{1}{4} + 6\cdot\frac{1}{8}\log_{4}\frac{1}{8}\biggr) \\
+            \alignedbox{ &= \qty{1.375}{\quaternary}}.
+          \end{align*}
+          Thus, we have that \(\boxed{H_{4}(\X)<\overline{R}(\C,p_{2})<H_{4}(\X)+1}\).
+        \end{proofpart}
       \end{solution}
 
       \part{}
