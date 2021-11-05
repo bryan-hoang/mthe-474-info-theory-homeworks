@@ -27,12 +27,43 @@
     \begin{parts}
       \part{}
       \begin{solution}
-        42.
+        Let \(\mathcal{S}\) and \(\mathcal{U}\) denote the set of all suffix and UD first-order binary VLCs, respectively.
+
+        First, note that since \(\mathcal{S}\subseteq\mathcal{U}\), then
+        \begin{align*}
+          \min_{\C\in\mathcal{U}}\bar{L}  &\le \min_{\C\in\mathcal{S}}\bar{L}                         \\
+          \Rightarrow \bar{L}_{\text{UD}} &\le \bar{L}_{\text{S}}\numberthis\label{eq:ud-less-than-s}
+        \end{align*}
+        Now let \(\C^{*}\), with codeword lengths \(l_{1}^{*},\dotsc,l_{n}^{*}\), be the \underline{optimal} UD code \((\C^{*}\in\mathcal{U})\):
+        \begin{equation*}
+          \bar{L}(\C^{*}) = \bar{L}_{\text{UD}}
+        \end{equation*}
+        where \(\bar{L}(\C)\) is the expected cost function, \(\bar{L}\), of \(\C\).
+
+        Then the codeword lengths \(\{l_{i}^{*}\}_{i=1}^{M}\) of \(\C^{*}\) must satisfy the Kraft inequality (in base D) since \(\C^{*}\) is UD.
+
+        Then by the Theorem in class on the ``Kraft Inequality for Prefix codes'', \(\exists\) prefix code \(\C^{'}\) with the same codeword lengths as \(C^{*}\): \(l_{i}^{'}=l_{i}^{*},\ i=1,\dotsc,M\). We can reverse the codewords of \(\C^{'}\) to obtain a suffix code \(\C^{''}\in\mathcal{S}\), with the same codeword lengths as \(C^{*}\): \(l_{i}^{''}=l_{i}^{*},\ i=1,\dotsc,M\).
+        \begin{align*}
+          \therefore \bar{L}(\C^{''}) &= \sum_{i=1}^{M} p_{i}c(l_{i}^{''}) \\
+                                      &= \sum_{i=1}^{M} p_{i}c(l_{i}^{*})  \\
+                                      &= \bar{L}_{\text{UD}}
+        \end{align*}
+        \underline{But}, \(\bar{L}(\C^{''})\ge\bar{L}_{\text{S}}\) by the definition of \(\bar{L}_{\text{S}}\).
+        \begin{equation}
+          \therefore \bar{L}_{\text{UD}} \ge \bar{L}_{\text{S}}\label{eq:s-less-than-ud}.
+        \end{equation}
+        Then by~\eqref{eq:ud-less-than-s} and~\eqref{eq:s-less-than-ud}, we have \(\boxed{\bar{L}_{\text{UD}}=\bar{L}_{\text{S}}}\).
       \end{solution}
 
       \part{}
       \begin{solution}
-        42.
+        \underline{Compression efficiency} is one appropriate metric, where we want to choose a code alphabet size \(D\) and maximize order \(n\) so that the code's average code rate, \(\overline{R}\), is as close as possible to the DMSs source entropy, \(H_{D}(X)\).
+
+        \underline{Encoding delay} is another metric, where we want to minimize order \(n\) and design a code with minimal variance in length to minimize the delay.
+
+        \underline{Storage and computational complexity} is a third metric, where we want to minimize the size of the source alphabet by minimizing the order \(n\).
+
+        Due to these considerations, we need to balance the metrics and evluate the trade-offs between different solutions depending on the design application.
       \end{solution}
     \end{parts}
   \end{questions}
