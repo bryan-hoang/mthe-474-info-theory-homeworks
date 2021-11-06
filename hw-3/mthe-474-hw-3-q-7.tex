@@ -31,13 +31,48 @@
         \subpart{}
         \begin{solution}
           \begin{proof}
-            42.
+            To prove both inequalities, first observe that
+            \begin{align*}
+               &\phantomeq \frac{1}{n}H(X^{n}) + \frac{1}{n}D(P_{X^{n}}||P_{\hat{X}_{n}})                                                                                                                \\
+               &= \frac{1}{n}\biggl(-\sum_{x^{n}\in X^{n}}P_{X^{n}}(x^{n})\log_{2}P_{X^{n}}(x^{n}) - \sum_{x^{n}\in X^{n}}P_{X^{n}}(x^{n})\log_{2}\frac{P_{\hat{X}^{n}}(x^{n})}{P_{X^{n}}(x^{n})}\biggr) \\
+               &= -\frac{1}{n} \sum_{x^{n}\in X^{n}} P_{X^{n}}(x^{n}) \log_{2} \cancel{P_{X^{n}}(x^{n})}\frac{P_{\hat{X}^{n}}(x^{n})}{\cancel{P_{X^{n}}(x^{n})}}                                         \\
+               &= \frac{1}{n} \sum_{x^{n}\in X^{n}} P_{X^{n}}(x^{n}) (-\log_{2} P_{\hat{X}^{n}}(x^{n}))\numberthis\label{eq:entropy-divergence}.
+            \end{align*}
+            We also know that by the definition of \(l(c_{x^{n}})\),
+            \begin{equation}
+              -\log_{2} P_{\hat{X}_{n}}(x^{n}) \le l(c_{x^{n}}) < -\log_{2} P_{\hat{X}_{n}}(x^{n}) + 1,\quad \forall x^{n} \in \X^{n}\label{eq:length-inequality}.
+            \end{equation}
+            \begin{proofpart}
+              \(\left(\frac{1}{n}H(X^{n}) + \frac{1}{n}D(P_{X^{n}}||P_{\hat{X}_{n}}) \le \bar{R}_{n}\right)\)
+              \begin{align*}
+                 &\phantomeq \frac{1}{n}H(X^{n}) + \frac{1}{n}D(P_{X^{n}}||P_{\hat{X}_{n}})                                                               \\
+                 &= \frac{1}{n} \sum_{x^{n}\in X^{n}} P_{X^{n}}(x^{n}) (-\log_{2} P_{\hat{X}^{n}}(x^{n})) & &\text{by~\eqref{eq:entropy-divergence}}      \\
+                 &\le \frac{1}{n} \sum_{x^{n}\in X^{n}} P_{X^{n}}(x^{n}) l(c_{x^{n}})                     & &\text{by~\eqref{eq:length-inequality}}       \\
+                 &= \bar{R}_{n}                                                                           & &\text{by the definition of \(\bar{R}_{n}\).}
+              \end{align*}
+            \end{proofpart}
+            \begin{proofpart}
+              \(\left(\bar{R}_{n} < \frac{1}{n}H(X^{n}) + \frac{1}{n}D(P_{X^{n}}||P_{\hat{X}_{n}}) + \frac{1}{n} \right)\)
+              \begin{align*}
+                 &\phantomeq \bar{R}_{n}                                                                                                                                                                       \\
+                 &= \frac{1}{n} \sum_{x^{n}\in X^{n}} P_{X^{n}}(x^{n}) l(c_{x^{n}})                                                                            & &\text{by the definition of \(\bar{R}_{n}\).} \\
+                 &< \frac{1}{n} \sum_{x^{n}\in X^{n}} P_{X^{n}}(x^{n}) (-\log_{2} P_{\hat{X}^{n}}(x^{n})) + \frac{1}{n} \sum_{x^{n}\in X^{n}} P_{X^{n}}(x^{n}) & &\text{by~\eqref{eq:length-inequality}}       \\
+                 &= \frac{1}{n}H(X^{n}) + \frac{1}{n}D(P_{X^{n}}||P_{\hat{X}_{n}}) + \frac{1}{n}                                                               & &\text{by~\eqref{eq:entropy-divergence}.}
+              \end{align*}
+            \end{proofpart}
           \end{proof}
         \end{solution}
 
         \subpart{}
         \begin{solution}
-          42.
+          \begin{align*}
+                         &\phantomeq \lim_{n\to\infty} \hat{R}_{n}                                                              \\
+                         &= \lim_{n\to\infty} \frac{1}{n}H(X^{n}) + \frac{1}{n}D(P_{X^{n}}||P_{\hat{X}_{n}})                    \\
+                         &= H(X_{2}|X_{1}) + \lim_{n\to\infty} \frac{1}{n} D(P_{X^{n}}||P_{\hat{X}_{n}})                        \\
+                         &= H(X_{2}|X_{1}) + \lim_{n\to\infty} \frac{1}{n} \sum_{i=1}^{n} D(P_{X_{i}|X^{i-1}}||P_{\hat{X}_{n}}) \\
+                         &\;\vdots                                                                                              \\
+            \alignedbox{ &= H(P_{X_{2},X_{1}};P_{\hat{X}_{2},\hat{X}_{1}}) - H(P_{X_{1}};P_{\hat{X}_{1}})}.
+          \end{align*}
         \end{solution}
       \end{subparts}
     \end{parts}
