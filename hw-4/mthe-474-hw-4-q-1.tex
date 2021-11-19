@@ -23,16 +23,82 @@
   \begin{questions}
     \setcounter{question}{\questionnumber}
     \addtocounter{question}{-1}
-    \question[10]\
+    \question[10]
+    From the question, we immediately have
+    \begin{equation*}
+      \Q = \begin{bmatrix}
+        \epsilon & ?        & ? & ? \\
+        ?        & \epsilon & ? & ?
+      \end{bmatrix}.
+    \end{equation*}
     \begin{parts}
       \part{}
       \begin{solution}
-        42.
+        \begin{align*}
+          H(Y|X) &= -\sum_{x \in \X} p_{X}(x) \sum_{y \in \Y} p_{Y|X}(y|x) \log_{2} p_{Y|X}(y|x)                                                 \\
+                 &= -(\epsilon \log_{2} \epsilon) \cancelto{1}{\sum_{x = 0}^{1} p_{X}(x)} - \sum_{x=0}^{1} p_{X}(x) \left[\sum_{\substack{y = 0  \\y \neq x}}^{3} \underbrace{p_{Y|X}(y|x)}_{a_{i}} \log_{2} \underbrace{p_{Y|X}(y|x)}_{\substack{a_{i}\\b_{i}=1}}\right] \\
+          \intertext{By the Log sum inequality, we have that}
+          H(Y|X) &\le -\epsilon\log_{2}(\epsilon)-\sum_{x=0}^{1} p_{X}(x)\left[\underbrace{\left(\sum_{\substack{y=0                             \\y\neq x}}^{3}p_{Y|X}(y|x)\right)}_{=1-\epsilon}\log_{2}\frac{\overbrace{\sum_{\substack{y=0\\y\neq x}}^{3}p_{Y|X}(y|x)}^{=1-\epsilon}}{\underbrace{\sum_{\substack{y=0\\y\neq x}}^{3} 1}_{3}}\right] \\
+                 &= -\epsilon\log_{2}(\epsilon) - \cancelto{1}{\biggl(\sum_{x=0}^{1} p_{X}(x)\biggr)} (1-\epsilon) \log_{2} \frac{1-\epsilon}{3} \\
+                 &= -\epsilon\log_{2}(\epsilon) - (1-\epsilon) \log_{2} \frac{1-\epsilon}{3}.
+        \end{align*}
+        \begin{align*}
+          \therefore H(Y|X)                     &\uro[\le]_{\text{w/ equality iff}} - \epsilon\log_{2}(\epsilon) - (1-\epsilon) \log_{2} \frac{1-\epsilon}{3}                     \\
+          \frac{\sum_{i} a_{i}}{\sum_{i} b_{i}} &\uro \frac{a_{i}}{b_{i}}                                                                                     & &\forall i        \\
+          \iff \frac{1-\epsilon}{3}             &\uro \frac{p_{Y|X}(y|x)}{1}                                                                                  & &\forall y \ne x  \\
+          \iff p_{Y|X}(y|x)                     &\uro \frac{1-\epsilon}{3}                                                                                    & &\forall y \ne x.
+        \end{align*}
+        \begin{equation*}
+          \therefore\text{\(H(Y|X)\) is maximized} \iff \boxed{\Q = \begin{bmatrix}
+              \epsilon             & \frac{1-\epsilon}{3} & \frac{1-\epsilon}{3} & \frac{1-\epsilon}{3} \\
+              \frac{1-\epsilon}{3} & \epsilon             & \frac{1-\epsilon}{3} & \frac{1-\epsilon}{3}
+            \end{bmatrix}}.
+        \end{equation*}
       \end{solution}
 
       \part{}
       \begin{solution}
-        42.
+        The channel is quasi-symmetric. The weakly symmetric submatrices are
+        \begin{equation*}
+          \Q = \begin{bmatrix}
+            \epsilon                       & \frac{1-\epsilon}{3}                                   & \frac{1-\epsilon}{3}           & \frac{1-\epsilon}{3}           \\
+            \undermat{\frac{1-\epsilon}{3} & \phantom{\epsilon}\epsilon\phantom{\epsilon}}_{\Q_{1}} & \undermat{\frac{1-\epsilon}{3} & \frac{1-\epsilon}{3}}_{\Q_{2}}
+          \end{bmatrix}
+        \end{equation*}
+        Hence, the channel's capacity is
+        \begin{equation*}
+          C = \sum_{i=1}^{2} a_{i} C_{i}
+        \end{equation*}
+        where for \(i=1,2\),
+        \begin{gather*}
+          a_{i} = \text{sum of any row in \(\Q_{i}\)} \\
+          C_{i} = \log_{2}\abs{\Y_{i}} - H(\text{any row in matrix \(\frac{1}{a_{i}}\Q_{i}\)}).
+        \end{gather*}
+        Hence,
+        \begin{gather*}
+          a_{1} = \frac{1+2\epsilon}{3} \\
+          \begin{aligned}
+            C_{1} &= \log_{2}(2) - H\biggl(\epsilon\cdot\frac{3}{1+2\epsilon},\frac{3}{1+2\epsilon}\cdot\frac{1-\epsilon}{3}\biggr)                                                                                                                 \\
+                  &= 1 - H\biggl(\frac{3\epsilon}{1+2\epsilon},\frac{1-\epsilon}{1+2\epsilon}\biggr)                                                                                                                                                \\
+                  &= 1 - \Biggl(-\biggl(\frac{3\epsilon}{1+2\epsilon}\biggr) \log_{2} \biggl(\frac{3\epsilon}{1+2\epsilon}\biggr) - \biggl(\frac{1-\epsilon}{1+2\epsilon} \biggr)\log_{2} \biggl(\frac{1-\epsilon}{1+2\epsilon}\biggr)\Biggr)       \\
+                  &= 1 - \Biggl(-\biggl(1-\frac{1-\epsilon}{1+2\epsilon}\biggr) \log_{2} \biggl(1-\frac{1-\epsilon}{1+2\epsilon}\biggr) - \biggl(\frac{1-\epsilon}{1+2\epsilon} \biggr)\log_{2} \biggl(\frac{1-\epsilon}{1+2\epsilon}\biggr)\Biggr) \\
+                  &= 1 - h_{b}\biggl(\frac{1-\epsilon}{1+2\epsilon}\biggr)
+          \end{aligned}
+        \end{gather*}
+        where \(h_{b}\) is the binary entropy function.
+        \begin{gather*}
+          a_{2} = \frac{2(1-\epsilon)}{3} \\
+          \begin{aligned}
+            C_{2} &= \log_{2}(2) - H\biggl(\frac{3}{2(1-\epsilon)}\cdot\frac{1-\epsilon}{3},\frac{3}{2(1-\epsilon)}\cdot\frac{1-\epsilon}{3}\biggr) \\
+                  &= 1 - H\biggl(\frac{1}{2},\frac{1}{2}\biggr)                                                                                     \\
+                  &= 1 - h_{b}\biggl(\frac{1}{2}\biggr)
+          \end{aligned}
+        \end{gather*}
+        \begin{align*}
+          \therefore C &= \sum_{i=1}^{2} a_{i} C_{i}                                                                                                                                                         \\
+                       &= \frac{1+2\epsilon}{3} - \frac{1+2\epsilon}{3} h_{b}\biggl(\frac{1-\epsilon}{1+2\epsilon}\biggr) + \frac{2(1-\epsilon)}{3} - \frac{2(1-\epsilon)}{3} h_{b}\biggl(\frac{1}{2}\biggr) \\
+          \alignedbox{ &= 1 - h_{b}\biggl(\frac{1-\epsilon}{1+2\epsilon}\biggr) - h_{b}\biggl(\frac{1}{2}\biggr)}
+        \end{align*}
       \end{solution}
     \end{parts}
   \end{questions}
