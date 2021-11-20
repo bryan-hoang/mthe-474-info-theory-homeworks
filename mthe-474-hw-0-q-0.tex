@@ -1,3 +1,4 @@
+% region Filename parsing.
 % Provides macros manipulating strings of tokens.
 \RequirePackage{xstring}
 
@@ -5,6 +6,7 @@
 \edef\normaljobname{\expandafter\scantokens\expandafter{\jobname\noexpand}}
 \StrBetween{\normaljobname}{hw-}{-q}[\homeworknumber]
 \StrBehind{\normaljobname}{-q-}[\questionnumber]
+% endregion
 
 \documentclass[
   coursecode={MTHE 474},

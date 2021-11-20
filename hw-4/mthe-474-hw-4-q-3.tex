@@ -1,3 +1,4 @@
+% region Filename parsing.
 % Provides macros manipulating strings of tokens.
 \RequirePackage{xstring}
 
@@ -5,6 +6,7 @@
 \edef\normaljobname{\expandafter\scantokens\expandafter{\jobname\noexpand}}
 \StrBetween{\normaljobname}{hw-}{-q}[\homeworknumber]
 \StrBehind{\normaljobname}{-q-}[\questionnumber]
+% endregion
 
 \documentclass[
   coursecode={MTHE 474},
@@ -27,17 +29,36 @@
     \begin{parts}
       \part{}
       \begin{solution}
-        42.
+        \textit{DMC} 1 is a Z-channel (binary asymmetric channel). Then calculating the channel's capacity yields
+        \begin{align*}
+          C &= \max_{p_{x}} I(X;Y)                                                                                \\
+            &= \max_{p_{x}} \{H(Y)-H(Y|X)\}                                                                       \\
+            &= \max_{p_{x}} \{H(Y)\} - \max_{p_{x}}\biggl\{\sum_{a_{i}\in\X} p_{X}(a_{i}) H(Y|X=a_{i})\biggr\}    \\
+            &= \log_{2} \abs{\Y} - \max_{p_{x}} \bigl\{p_{X}(a_{1})H(Y|X=a_{1}) + p_{X}(a_{2})H(Y|X=a_{2})\bigr\} \\
+            &= \log_{2} \abs{2} - \max_{p_{x}} \Bigl\{p_{X}(a_{2})h_{b}(\beta)\Bigr\}                             \\
+            &= 1 - \max_{p_{x}} \Bigl\{p_{X}(a_{2})h_{b}(\beta)\Bigr\}                                            \\
+        \end{align*}
+        The capacity input distribution is the Bernoulli distribution with parameter \(1-\alpha\).\@ i.e.,
+        \begin{equation*}
+          p_{X}(x) = \begin{cases}
+            1-\alpha &\text{if } x = a_{2}  \\
+            \alpha   &\text{if } x = a_{1},
+          \end{cases}
+        \end{equation*}
+        where
+        \begin{equation*}
+          \alpha = 1 - \frac{1}{(1-\beta)(1+2^{\frac{h_{b}(\beta)}{1-\beta}})}.
+        \end{equation*}
       \end{solution}
 
       \part{}
       \begin{solution}
-        42.
+
       \end{solution}
 
       \part{}
       \begin{solution}
-        42.
+
       \end{solution}
     \end{parts}
   \end{questions}

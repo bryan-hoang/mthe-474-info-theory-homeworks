@@ -91,13 +91,13 @@
           \begin{aligned}
             C_{2} &= \log_{2}(2) - H\biggl(\frac{3}{2(1-\epsilon)}\cdot\frac{1-\epsilon}{3},\frac{3}{2(1-\epsilon)}\cdot\frac{1-\epsilon}{3}\biggr) \\
                   &= 1 - H\biggl(\frac{1}{2},\frac{1}{2}\biggr)                                                                                     \\
-                  &= 1 - h_{b}\biggl(\frac{1}{2}\biggr)
+                  &= 1 - h_{b}\biggl(\frac{1}{2}\biggr)                                                                                             \\
+                  &= 0
           \end{aligned}
         \end{gather*}
         \begin{align*}
-          \therefore C &= \sum_{i=1}^{2} a_{i} C_{i}                                                                                                                                                         \\
-                       &= \frac{1+2\epsilon}{3} - \frac{1+2\epsilon}{3} h_{b}\biggl(\frac{1-\epsilon}{1+2\epsilon}\biggr) + \frac{2(1-\epsilon)}{3} - \frac{2(1-\epsilon)}{3} h_{b}\biggl(\frac{1}{2}\biggr) \\
-          \alignedbox{ &= 1 - h_{b}\biggl(\frac{1-\epsilon}{1+2\epsilon}\biggr) - h_{b}\biggl(\frac{1}{2}\biggr)}
+          \therefore C &= \sum_{i=1}^{2} a_{i} C_{i}                                                                       \\
+          \alignedbox{ &= \frac{1+2\epsilon}{3} - \frac{1+2\epsilon}{3} h_{b}\biggl(\frac{1-\epsilon}{1+2\epsilon}\biggr)}
         \end{align*}
       \end{solution}
     \end{parts}
