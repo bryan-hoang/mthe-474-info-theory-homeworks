@@ -30,30 +30,41 @@
       \part{}
       \begin{solution}
         \begin{claim}
-
+          The statement is \textbf{true}.
         \end{claim}
         \begin{proof}
-
+          \begin{align*}
+            \h{-4X-3Y-10} &= \h{-4X-3Y}              & &\text{\because{} differential entropy doesn't change user translation} \\
+                          &\ge \h{-4X-3Y|Y}          & &\text{\because{} conditioning reduces differential entropy}            \\
+                          &= h{-4X|Y}                & &\text{\because{} differential entropy doesn't change user translation} \\
+                          &= h{-4X}                  & &\text{\because{} \(X \independent Y\)}                                 \\
+                          &= h{X} + \log_{2}\abs{-4} & &\text{by the property of differential entropy acting on scaling}       \\
+                          &= h{X} + 2.                                                                                         \\
+          \end{align*}
         \end{proof}
       \end{solution}
 
       \part{}
       \begin{solution}
         \begin{claim}
-
+          The statement is \textbf{false}.
         \end{claim}
         \begin{proof}
-
+          \begin{align*}
+            I(X;Z) &\le I(X;Y)                                                                             & &\text{by the DPI} \\
+                   &= \h{X} + \h{Y} - \H{X,Y}                                                                                   \\
+                   &= \log_{2} (2\pi e) - \biggl(\frac{1}{2}\log_{2}(1-\rho^{2}) + \log_{2}(2\pi e)\biggr)                      \\
+                   &= \frac{1}{2}\log_{2}\biggl[\frac{1}{1-\rho^{2}}\biggr].
+          \end{align*}
         \end{proof}
       \end{solution}
 
       \part{}
       \begin{solution}
         \begin{claim}
-
+          The statement is \textbf{true}.
         \end{claim}
         \begin{proof}
-
         \end{proof}
       \end{solution}
     \end{parts}
