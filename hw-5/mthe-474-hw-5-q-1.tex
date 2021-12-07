@@ -1,0 +1,108 @@
+% region Filename parsing.
+% Provides macros manipulating strings of tokens.
+\RequirePackage{xstring}
+
+% Store the jobname as a string with category 11 characters.
+\edef\normaljobname{\expandafter\scantokens\expandafter{\jobname\noexpand}}
+\StrBetween{\normaljobname}{hw-}{-q}[\homeworknumber]
+\StrBehind{\normaljobname}{-q-}[\questionnumber]
+% endregion
+
+\documentclass[
+  coursecode={MTHE 474},
+  assignmentname={Homework \homeworknumber},
+  studentnumber=20053722,
+  name={Bryan Hoang},
+  draft,
+  % final,
+]{
+  ltxanswer%
+}
+
+\usepackage{bch-style}
+
+\begin{document}
+  \begin{questions}
+    \setcounter{question}{\questionnumber}
+    \addtocounter{question}{-1}
+    \question[15]\
+    \begin{parts}
+      \part{}
+      \begin{solution}
+        The binary Polya contagion Markov source treated in Example 3.17 in the textbook with memory \(M = 2\), \(\{Z_{n}\}_{n=1}^{\infty}\), is also stationary with alphabet \(\mathcal{Z} = \{0,1\}\). Then for \(a,b \in \mathcal{Z}\), its transition probabilities are
+        \begin{align*}
+          \Pr{Z_{n}=1|Z_{n-1}=a,Z_{n-2}=b} &= \frac{R+(a+b)\Delta}{T+2\Delta}         \\
+                                           &= \frac{\rho+(a+b)\delta}{1+2\delta}      \\
+          \Pr{Z_{n}=0|Z_{n-1}=a,Z_{n-2}=b} &= 1 - \Pr{Z_{n}=1|Z_{n-1}=a,Z_{n-2}=b}    \\
+                                           &= 1 - \frac{\rho+(a+b)\delta}{1+2\delta}.
+        \end{align*}
+        Let's define a new Markov source \(\{X_{n}\}_{n=1}^{\infty}\) with \(X_{n}=(Z_{n},Z_{n+1})\ \forall n \in Z_{n\ge1}\) and state space \(\X=\mathcal{Z}^{2}\).
+        \newline
+        \begin{claim}
+          \(\{X_{n}\}_{n=1}^{\infty}\) is a Markov source with memory 1.
+        \end{claim}
+        \begin{proof}
+          \(\forall i \in \Z_{>1}, x^{i} \in \X^{i}\),
+          \begin{align*}
+             &\phantomeq \Pr{X_{i}=x_{i}|X^{i-1}=x^{i-1}}                                                                                        \\
+             &= \Pr{Z_{i}=z_{i},Z_{i+1}=z_{i+1}|Z^{i-1}=z^{i-1},Z_{2}^{i}=z_{2}^{i}}                                                             \\
+             &= \Pr{Z_{i}=z_{i},Z_{i+1}=z_{i+1}|Z^{i}=z^{i}}                                                                                     \\
+             &= \Pr{Z_{i}=z_{i},Z_{i+1}=z_{i+1}|Z_{i-1}=z_{i-1},Z_{i}=z_{i}}         & &\text{\(\because\{Z_{n}\}_{n=1}^{\infty}\) has memory 2} \\
+             &= \Pr{X_{i}=x_{i}|X_{i-1}=x_{i-1}}
+          \end{align*}
+        \end{proof}
+        \begin{claim}
+          \(\{X_{n}\}_{n=1}^{\infty}\) is a stationary Markov source with stationary distribution
+          \begin{equation*}
+            \pi = \biggl(\frac{(1-\rho)(1-\rho+\delta)}{1+\delta}, \frac{\rho(1-\rho)}{1+\delta}, \frac{\rho(1-\rho)}{1+\delta}, \frac{\rho(\rho+\delta)}{1+\delta}\biggr)
+          \end{equation*}
+        \end{claim}
+        \begin{proof}
+          The transition probability matrix of \(\{X_{n}\}_{n=1}^{\infty}\) is
+          \begin{equation*}
+            \mathcal{Q} = \begin{bmatrix}
+              1 - \frac{\rho}{1+2\delta}        & \frac{\rho}{1+2\delta}        & 0                                  & 0                              \\
+              0                                 & 0                             & 1 - \frac{\rho+\delta}{1+2\delta}  & \frac{\rho+\delta}{1+2\delta}  \\
+              1 - \frac{\rho+\delta}{1+2\delta} & \frac{\rho+\delta}{1+2\delta} & 0                                  & 0                              \\
+              0                                 & 0                             & 1 - \frac{\rho+2\delta}{1+2\delta} & \frac{\rho+2\delta}{1+2\delta}
+            \end{bmatrix}
+          \end{equation*}
+          Let \(\pi=(\pi_{0,0},\pi_{0,1},\pi_{1,0},\pi_{1,1})\). Then solving \(\pi=\pi\mathcal{Q}\) and \(\sum_{i,j\in\mathcal{Z}} \pi_{i,j} = 1\) yields
+          \begin{equation*}
+            \pi = \biggl(\frac{(1-\rho)(1-\rho+\delta)}{1+\delta}, \frac{\rho(1-\rho)}{1+\delta}, \frac{\rho(1-\rho)}{1+\delta}, \frac{\rho(\rho+\delta)}{1+\delta}\biggr).
+          \end{equation*}
+          \therefore\ \(\{X_{n}\}_{n=1}^{\infty}\) is a stationary process.
+        \end{proof}
+        The last quantity required to find the sufficient condition is the Entropy rate of \(\{Z_{n}\}_{n=1}^{\infty}\), \(H(\mathcal{Z})\).
+        \begin{align*}
+           &\phantomeq \H{\mathcal{Z}}                                                                                                                                                                                                                                                                                                    \\
+           &= \H{Z_{3}|Z_{2},Z_{1}}                                                                                                                                                                                                                                           & &\text{\(\because\{Z_{n}\}_{n=1}^{\infty}\)'s stationary} \\
+           &= \H{Z_{2},Z_{3}|Z_{1}, Z_{2}}                                                                                                                                                                                                                                                                                                \\
+           &= \H{X_{2}|X_{1}}                                                                                                                                                                                                                                                                                                             \\
+           &= -\sum_{x_{1}\in\X} p_{X_{1}}(x_{1}) \sum_{x_{2\in\X}} p_{X_{2}|X_{1}}(x_{2}|x_{1}) \log_{2} p_{X_{2}|X_{1}}(x_{2}|x_{1})                                                                                                                                                                                                    \\
+           &= -\sum_{x_{1}\in\X} \pi(x_{1}) \sum_{x_{2\in\X}} p_{X_{2}|X_{1}}(x_{2}|x_{1}) \log_{2} p_{X_{2}|X_{1}}(x_{2}|x_{1})                                                                                                                                              & &\text{\(\because\{X_{n}\}_{n=1}^{\infty}\)'s stationary} \\
+           &= \frac{(1-\rho)(1-\rho+\delta)}{1+\delta}h_{b}\biggl(\frac{\rho}{1+2\delta}\biggr) + \frac{2\rho(1-\rho+\delta)}{1+\delta}h_{b}\biggl(\frac{\rho+\delta}{1+2\delta}\biggr) + \frac{\rho(\rho+\delta)}{1+\delta}h_{b}\biggl(\frac{\rho+2\delta}{1+2\delta}\biggr)
+        \end{align*}
+        where \(h_{b}\) is the binary entropy function. Then by the forward-part of lossless joint source-channel coding theorem, the Markov source \(\{Z_{n}\}_{n=1}^{\infty}\) can be reliably transmitted over the BSEC via an \(m\)-to-\(n_{m}\) source-channel block code if
+        \begin{equation*}
+          R_{sc}\H{\X} < C.
+        \end{equation*}
+        Therefore, the sufficient condition for reliable transmissibility of the source over the BSEC is
+        \begin{align*}
+          R_{sc}                         &< \frac{C}{\H{\X}}                                                                                                                                                                                                                                                                                                              \\
+          \Rightarrow \alignedbox{R_{sc} &<\frac{(1-\alpha)\bigl(1-h_{b}(\frac{\varepsilon}{1-\alpha})\bigr)}{\frac{(1-\rho)(1-\rho+\delta)}{1+\delta}h_{b}\bigl(\frac{\rho}{1+2\delta}\bigr) + \frac{2\rho(1-\rho+\delta)}{1+\delta}h_{b}\bigl(\frac{\rho+\delta}{1+2\delta}\bigr) + \frac{\rho(\rho+\delta)}{1+\delta}h_{b}\bigl(\frac{\rho+2\delta}{1+2\delta}\bigr)}}
+        \end{align*}
+      \end{solution}
+
+      \part{}
+      \begin{solution}
+        For \(\rho=\delta=\frac{1}{2}\) and \(\varepsilon=\alpha=0.1\), then
+        \begin{align*}
+          R_{sc}                         &\in \biggl(0, \frac{C}{\H{\X}}\biggr)                                                                                                                      \\
+          \Rightarrow R_{sc}             &\in \biggl(0, \frac{0.447}{\frac{1}{3}h_{b}\bigl(\frac{1}{4}\bigr)+\frac{1}{3}h_{b}\bigl(\frac{1}{2}\bigr)+\frac{1}{3}h_{b}\bigl(\frac{3}{4}\bigr)}\biggr) \\
+          \Rightarrow \alignedbox{R_{sc} &\in (0, 0.511)}
+        \end{align*}
+      \end{solution}
+    \end{parts}
+  \end{questions}
+\end{document}

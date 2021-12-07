@@ -1,0 +1,64 @@
+% region Filename parsing.
+% Provides macros manipulating strings of tokens.
+\RequirePackage{xstring}
+
+% Store the jobname as a string with category 11 characters.
+\edef\normaljobname{\expandafter\scantokens\expandafter{\jobname\noexpand}}
+\StrBetween{\normaljobname}{hw-}{-q}[\homeworknumber]
+\StrBehind{\normaljobname}{-q-}[\questionnumber]
+% endregion
+
+\documentclass[
+  coursecode={MTHE 474},
+  assignmentname={Homework \homeworknumber},
+  studentnumber=20053722,
+  name={Bryan Hoang},
+  draft,
+  % final,
+]{
+  ltxanswer%
+}
+
+\usepackage{bch-style}
+
+\begin{document}
+  \begin{questions}
+    \setcounter{question}{\questionnumber}
+    \addtocounter{question}{-1}
+    \question[15]\
+    \begin{parts}
+      \part{}
+      \begin{solution}
+        \begin{proof}
+          Assuming that the integrals are definite over \(\R^{n}\), we have
+          \begin{align*}
+             &\phantomeq \int_{\R^{n}} a(x^{n}) \ln \frac{a(x^{n})}{b(x^{n})} \dl3x^{n} - a \ln \frac{a}{b}                                                                                 \\
+             &= \int_{\R^{n}} a(x^{n}) \ln \frac{a(x^{n})}{b(x^{n})} \dl3x^{n} - \int_{\R^{n}} a(x^{n}) \dl3x^{n} \ln \frac{a}{b}                                                           \\
+             &= \int_{\R^{n}} a(x^{n}) \ln \frac{a(x^{n})b}{b(x^{n})a} \dl3x^{n}                                                                                                            \\
+             &\ge \int_{\R^{n}} a(x^{n})\biggl(1 - \frac{b(x^{n})a}{a(x^{n})b}\biggr) \dl3x^{n}                                   & &\text{by the Fundamental Inequality for the Logarithm} \\
+             &= \int_{\R^{n}} a(x^{n}) \dl3x^{n} - \frac{a}{b} \int_{\R^{n}} b(x^{n}) \dl3x^{n}                                                                                             \\
+             &= a - \frac{a}{b} \cdot b                                                                                                                                                     \\
+             &= 0.
+          \end{align*}
+          \therefore\ \(\int_{\R^{n}} a(x^{n}) \ln \frac{a(x^{n})}{b(x^{n})} \dl3x^{n} \ge a \ln \frac{a}{b}\).
+        \end{proof}
+      \end{solution}
+
+      \part{}
+      \begin{solution}
+        \begin{proof}
+          Let \(f_{Y_{i}}(y) = \int_{\R} f_{Y_{i}|X_{i}}(y|x)f_{X_{i}}(x) \dl3x\) be the pdf of channel output \(Y_{i}\), \(\forall i=1,2, y\in\R\). Then
+          \begin{align*}
+             &\phantomeq \DKL{Y_{1}||Y_{2}}                                                                                                                                                                                         \\
+             &= \int_{\R} f_{Y_{1}}(y) \ln \frac{f_{Y_{1}(y)}}{f_{Y_{2}}(y)} \dl3y                                                                                                                                                  \\
+             &\le \int_{\R} \int_{\R} f_{Y_{1}|X_{1}}(y|x)f_{X_{1}}(x) \ln \frac{f_{Y_{1}|X_{1}}(y|x)f_{X_{1}}(x)}{f_{Y_{2}|X_{2}}(y|x)f_{X_{2}}(x)} \dl3x \dl3y & &\text{by part~\ref{part@4@1}}                                   \\
+             &= \int_{\R} \int_{\R} f_{Y_{1}|X_{1}}(y|x) \dl3y\, f_{X_{1}}(x) \ln \frac{f_{X_{1}}(x)}{f_{X_{2}}(x)} \dl3x                                        & &\text{\because\ both outputs are for the \textit{same} channel} \\
+             &= \int_{\R} f_{X_{1}}(x) \ln \frac{f_{X_{1}}(x)}{f_{X_{2}}(x)} \dl3x                                                                                                                                                  \\
+             &= \DKL{X_{1}||X_{2}}
+          \end{align*}
+          \therefore\ \(\DKL{X_{1}||X_{2}} \ge \DKL{Y_{1}||Y_{2}}\).
+        \end{proof}
+      \end{solution}
+    \end{parts}
+  \end{questions}
+\end{document}

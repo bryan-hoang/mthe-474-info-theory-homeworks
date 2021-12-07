@@ -1,0 +1,75 @@
+% region Filename parsing.
+% Provides macros manipulating strings of tokens.
+\RequirePackage{xstring}
+
+% Store the jobname as a string with category 11 characters.
+\edef\normaljobname{\expandafter\scantokens\expandafter{\jobname\noexpand}}
+\StrBetween{\normaljobname}{hw-}{-q}[\homeworknumber]
+\StrBehind{\normaljobname}{-q-}[\questionnumber]
+% endregion
+
+\documentclass[
+  coursecode={MTHE 474},
+  assignmentname={Homework \homeworknumber},
+  studentnumber=20053722,
+  name={Bryan Hoang},
+  draft,
+  % final,
+]{
+  ltxanswer%
+}
+
+\usepackage{bch-style}
+
+\begin{document}
+  \begin{questions}
+    \setcounter{question}{\questionnumber}
+    \addtocounter{question}{-1}
+    \question[10]\
+    \begin{parts}
+      \part{}
+      \begin{solution}
+        \begin{align*}
+                       &\phantomeq h(X)                                                                                                                                                                      \\
+                       &= -\int_{0}^{\infty} f_{X}(x)\ln f_{X}(x) \dl3x                                                                                                                                      \\
+                       &= -\int_{0}^{\infty} \frac{1}{\sigma x \sqrt{2\pi}} e^{-\frac{(\ln x - \mu)^{2}}{2\sigma^{2}}} \ln \frac{1}{\sigma x \sqrt{2\pi}} e^{-\frac{(\ln x - \mu)^{2}}{2\sigma^{2}}} \dl3x   \\
+                       &= -\int_{0}^{\infty} \frac{1}{\sigma x \sqrt{2\pi}} e^{-\frac{(\ln x - \mu)^{2}}{2\sigma^{2}}} \biggl(-\frac{(\ln x - \mu)^{2}}{2\sigma^{2}} - \ln \sigma x \sqrt{2\pi}\biggr) \dl3x \\
+          \intertext{Let \(u=\ln x \Rightarrow \dl u=\frac{1}{x}\ \&\ x=e^{u}\ \&\ u\in\R\). Then}
+                       &\phantomeq h(X)                                                                                                                                                                      \\
+                       &= \int_{-\infty}^{\infty} \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{(u - \mu)^{2}}{2\sigma^{2}}} \biggl(\frac{(u - \mu)^{2}}{2\sigma^{2}} + \ln e^{u}\sigma\sqrt{2\pi}\biggr) \dl3u     \\
+                       &= \int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi\sigma^{2}}} e^{-\frac{(u - \mu)^{2}}{2\sigma^{2}}} \frac{(u - \mu)^{2}}{2\sigma^{2}} \dl3u
+          + \int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi\sigma^{2}}} e^{-\frac{(u - \mu)^{2}}{2\sigma^{2}}} u \dl3u
+          + \int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi\sigma^{2}}} e^{-\frac{(u - \mu)^{2}}{2\sigma^{2}}} \ln\sqrt{2\pi\sigma^{2}} \dl3u                                                                    \\
+                       &= \frac{1}{2\sigma^{2}} \underbrace{\int_{-\infty}^{\infty} \frac{1}{\sqrt{2\pi\sigma^{2}}} e^{-\frac{(u - \mu)^{2}}{2\sigma^{2}}} (u - \mu)^{2} \dl3u}_{\sigma^{2}}
+          + \underbrace{\int_{-\infty}^{\infty} u \frac{1}{\sqrt{2\pi\sigma^{2}}} e^{-\frac{(u - \mu)^{2}}{2\sigma^{2}}} \dl3u}_{\mu}
+          + \frac{1}{2}\ln 2\pi\sigma^{2} \underbrace{\int_{-\infty}^{\infty} \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{(u - \mu)^{2}}{2\sigma^{2}}} \dl3u}_{1}                                                 \\
+                       &= \frac{1}{2} \ln e + \mu + \ln \frac{1}{2}2\pi\sigma^{2}                                                                                                                            \\
+          \alignedbox{ &=\mu + \frac{1}{2}\ln2\pi e \sigma^{2}\ (\unit{\nats})}
+        \end{align*}
+      \end{solution}
+
+      \newpage
+
+      \part{}
+      \begin{solution}
+        \begin{proof}
+          Let \(g_{X}\) be an arbitrary pdf for the random variable \(X\) and \(f_{X}\) be the pdf of the log-normal distribution as from part~(\ref{part@2@1}). Then calculating the divergence between \(g_{X}\) and \(f_{x}\) yields
+          \begin{align*}
+            0 &\le \DKL{g_{X} || f_{X}}                                                                                                                                                                       \\
+              &= \int_{0}^{\infty} g_{X}(x) \ln \frac{g_{X}(x)}{f_{X}(x)} \dl3x                                                                                                                               \\
+              &= \int_{0}^{\infty} g_{X}(x) \ln g_{X}(x) \dl3x - \int_{0}^{\infty} g_{X}(x) \ln f_{X}(x) \dl3x                                                                                                \\
+              &= -h(g_{X}) - \int_{0}^{\infty} g_{X}(x) \Biggl[\ln \biggl(\frac{1}{\sigma x\sqrt{2\pi}}\biggr) - \frac{(\ln x-\mu)^{2}}{2\sigma^{2}}\Biggr] \dl3x                                             \\
+              &= -h(g_{X}) + \int_{0}^{\infty} g_{X}(x) \ln x\sqrt{2\pi\sigma^{2}} \dl3x + \int_{0}^{\infty} g_{X}(x) \frac{(\ln x-\mu)^{2}}{2\sigma^{2}} \dl3x                                               \\
+              &= -h(g_{X}) + \int_{0}^{\infty} g_{X}(x) \ln x \dl3x + \ln(\sqrt{2\pi\sigma^{2}}) \int_{0}^{\infty} g_{X}(x) \dl3x  + \frac{1}{2\sigma^{2}} \int_{0}^{\infty} g_{X}(x) (\ln (x)-\mu)^{2} \dl3x \\
+              &= -h(g_{X}) + \E_{g_{X}}{\ln x} + \ln (\sqrt{2\pi\sigma^{2}}) + \frac{1}{2\sigma^{2}} \E_{g_{X}}{(\ln (x)-\mu)^{2}}                                                                            \\
+              &= -h(g_{X}) + \mu + \frac{1}{2} \ln (2\pi\sigma^{2}) + \frac{1}{2}                                                                                                                             \\
+              &= -h(g_{X}) + \mu + \frac{1}{2} \ln (2\pi\sigma^{2}) + \frac{1}{2}\ln{e}                                                                                                                       \\
+              &= -h(g_{X}) + \mu + \frac{1}{2} \ln 2\pi e\sigma^{2}                                                                                                                                           \\
+              &= -h(g_{X}) + h(f_{X})\quad\text{by part~(\ref{part@2@1})}.
+          \end{align*}
+          \therefore\ \(h(g_{X}) \le h(f_{X})\), with equality iff \(h(g_{X}) = h(f_{X})\) almost everywhere.
+        \end{proof}
+      \end{solution}
+    \end{parts}
+  \end{questions}
+\end{document}

@@ -1,0 +1,78 @@
+% region Filename parsing.
+% Provides macros manipulating strings of tokens.
+\RequirePackage{xstring}
+
+% Store the jobname as a string with category 11 characters.
+\edef\normaljobname{\expandafter\scantokens\expandafter{\jobname\noexpand}}
+\StrBetween{\normaljobname}{hw-}{-q}[\homeworknumber]
+\StrBehind{\normaljobname}{-q-}[\questionnumber]
+% endregion
+
+\documentclass[
+  coursecode={MTHE 474},
+  assignmentname={Homework \homeworknumber},
+  studentnumber=20053722,
+  name={Bryan Hoang},
+  draft,
+  % final,
+]{
+  ltxanswer%
+}
+
+\usepackage{bch-style}
+
+\begin{document}
+  \begin{questions}
+    \setcounter{question}{\questionnumber}
+    \addtocounter{question}{-1}
+    \question[15]\
+    \begin{parts}
+      \part{}
+      \begin{solution}
+        \begin{align*}
+          h_{\alpha}(f) &= \frac{1}{1-\alpha} \ln \biggl(\int_{\R} \biggl(\frac{1}{\sqrt{2\pi\sigma_{1}^{2}}} e^{-\frac{x^{2}}{2\sigma_{1}^{2}}} \biggr)^{\alpha} \dl3x\biggr)                                                                                                       \\
+                        &= \frac{1}{1-\alpha} \ln \biggl(\int_{\R} \biggl(\frac{1}{\sqrt{2\pi\sigma_{1}^{2}}}\biggr)^{\alpha} e^{-\frac{x^{2}\alpha}{2\sigma_{1}^{2}}} \dl3x\biggr)                                                                                                  \\
+          \intertext{Let \(\beta=\frac{\sigma_{1}}{\sqrt{\alpha}}\). Then,}
+          h_{\alpha}(f) &= \frac{1}{1-\alpha} \ln \biggl(\biggl(\frac{1}{\sqrt{2\pi\sigma_{1}^{2}}}\biggr)^{\alpha} \beta\sqrt{2\pi} \underbrace{\int_{\R} \frac{1}{\beta\sqrt{2\pi}} e^{-\frac{x^{2}}{2\beta^{2}}} \dl3x}_{\text{pdf of a \(\mathcal{N}(0, \beta^{2})\) RV}}\biggr) \\
+                        &= \frac{1}{1-\alpha} \ln \biggl(\biggl(\frac{1}{\sqrt{2\pi\sigma_{1}^{2}}}\biggr)^{\alpha} \beta\sqrt{2\pi}\biggr)                                                                                                                                          \\
+                        &= \frac{1}{1-\alpha} \ln \biggl(-\alpha\ln(\sqrt{2\pi\sigma_{1}^{2}}) + \ln(\sqrt{2\pi\sigma_{1}^{2}})-\frac{1}{2}\ln\alpha\biggr)                                                                                                                          \\
+                        &= \ln\bigl(\sqrt{2\pi\sigma_{1}^{2}}\bigr) - \frac{1}{2} \cdot \frac{\ln\alpha}{1-\alpha}                                                                                                                                                                   \\
+          \alignedbox{  &= \frac{1}{2}\biggl(\ln(2\pi\sigma_{1}^{2}) - \frac{\ln\alpha}{1-\alpha}\biggr)}
+        \end{align*}
+        \begin{align*}
+          \DKL_{\alpha}{f||g} &= \frac{1}{1-\alpha} \ln \biggl(\int_{\R} \biggl(\frac{1}{\sqrt{2\pi\sigma_{1}^{2}}} e^{-\frac{x^{2}}{2\sigma_{1}^{2}}} \biggr)^{\alpha} \biggl(\frac{1}{\sqrt{2\pi\sigma_{2}^{2}}} e^{-\frac{x^{2}}{2\sigma_{2}^{2}}} \biggr)^{1-\alpha} \dl3x\biggr) \\
+                              &= \frac{1}{1-\alpha} \ln \biggl(\int_{\R} \frac{1}{\sigma_{1}^{\alpha}\sigma_{2}^{1-\alpha}\sqrt{2\pi}} e^{-\frac{x^{2}}{2}\Bigl(\frac{\alpha}{\sigma_{1}^{2}}+\frac{1-\alpha}{\sigma_{2}^{2}}\Bigr)} \dl3x\biggr)                                     \\
+          \intertext{Let \(\beta^{2}=\frac{\sigma_{1}^{2}\sigma_{2}^{2}}{\sigma_{2}^{2}\alpha+\sigma_{1}^{2}(1-\alpha)}\). Then,}
+          \DKL_{\alpha}{f||g} &= \frac{1}{1-\alpha} \ln \biggl(\frac{1}{\sigma_{1}^{\alpha}\sigma_{2}^{1-\alpha}} \beta \underbrace{\int_{\R} \frac{1}{\sqrt{2\pi\beta^{2}}} e^{-\frac{x^{2}}{2\beta^{2}}}}_{\text{pdf of a \(\mathcal{N}(0, \beta^{2})\) RV}}\biggr)                 \\
+                              &= \frac{1}{1-\alpha} \ln \biggl(\frac{1}{\sigma_{1}^{\alpha}\sigma_{2}^{1-\alpha}} \beta\biggr)                                                                                                                                                        \\
+                              &= \frac{1}{1-\alpha} \ln \biggl(\frac{1}{2}\ln(\beta^{2}) - \alpha\ln(\sigma_{1} - (1-\alpha)\ln(\sigma_{2}))\biggr)                                                                                                                                   \\
+                              &= \frac{1}{1-\alpha} \ln \biggl(\ln(\sigma_{1}) + \frac{1}{2} \ln \biggl(\frac{\sigma_{2}^{2}}{\alpha\sigma_{2}^{2}+(1-\alpha)\sigma_{1}^{2}}\biggr) - \ln(\sigma_{1} - (1-\alpha)\ln(\sigma_{2}))\biggr)                                              \\
+          \alignedbox{        &= \ln\Bigl(\frac{\sigma_{2}}{\sigma_{1}}\Bigr) + \frac{1}{2(\alpha-1)} \ln \biggl(\frac{\sigma_{2}^{2}}{\alpha\sigma_{2}^{2}+(1-\alpha)\sigma_{1}^{2}}\biggr)}
+        \end{align*}
+      \end{solution}
+
+      \newpage
+
+      \part{}
+      \begin{solution}
+        \begin{align*}
+          \lim_{\alpha\to1} h_{\alpha(f)} &= \lim_{\alpha\to1} \frac{1}{2}\biggl(\ln(2\pi\sigma_{1}^{2}) - \frac{\ln\alpha}{1-\alpha}\biggr)                               \\
+                                          &= \frac{1}{2} \ln(2\pi\sigma_{1}^{2}) - \frac{1}{2} \lim_{\alpha\to1} \frac{\ln\alpha}{1-\alpha}                                \\
+                                          &= \frac{1}{2} \ln(2\pi\sigma_{1}^{2}) - \frac{1}{2} \lim_{\alpha\to1} \frac{\frac{1}{\alpha}}{-1} & &\text{by L'Hopital's rule} \\
+                                          &= \frac{1}{2} \ln(2\pi\sigma_{1}^{2}) - \frac{1}{2} \ln e                                                                       \\
+                                          &= \frac{1}{2} \ln(2\pi e\sigma_{1}^{2})                                                                                         \\
+                                          &= h(f)
+        \end{align*}
+        \therefore\ Qualitatively, the limit converges to the regular differential entropy.
+        \begin{align*}
+          \lim_{\alpha\to1} \DKL_{\alpha}{f||g} &= \lim_{\alpha\to1} \ln\Bigl(\frac{\sigma_{2}}{\sigma_{1}}\Bigr) + \frac{1}{2(\alpha-1)} \ln \biggl(\frac{\sigma_{2}^{2}}{\alpha\sigma_{2}^{2}+(1-\alpha)\sigma_{1}^{2}}\biggr)                                                \\
+                                                &= \ln\Bigl(\frac{\sigma_{2}}{\sigma_{1}}\Bigr) + \frac{1}{2} \lim_{\alpha\to1} \frac{1}{\alpha-1} \ln \biggl(\frac{\sigma_{2}^{2}}{\alpha\sigma_{2}^{2}+(1-\alpha)\sigma_{1}^{2}}\biggr)                                       \\
+                                                &= \ln\Bigl(\frac{\sigma_{2}}{\sigma_{1}}\Bigr) + \frac{1}{2} \lim_{\alpha\to1} \biggl(\frac{\alpha\sigma_{2}^{2}+(1-\alpha)\sigma_{1}^{2}}{\sigma_{2}^{2}}\biggr)(\sigma_{2}^{2}-\sigma_{1}^{2}) & &\text{by L'Hopital's rule} \\
+                                                &= \ln\Bigl(\frac{\sigma_{2}}{\sigma_{1}}\Bigr) + \frac{1}{2\sigma_{2}^{2}}(\sigma_{1}^{2}-\sigma_{2}^{2})                                                                                                                      \\
+                                                &= \DKL{f||g}
+        \end{align*}
+        \therefore\ Qualitatively, the limit converges to the regular Kullback-Leibler divergence.
+      \end{solution}
+    \end{parts}
+  \end{questions}
+\end{document}
